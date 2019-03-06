@@ -33,9 +33,9 @@ public class GameMap {
 
         try {
             TileMask tm = new TileMask("ground//mask.png");
-            grass = TileIO.loadTiles("ground//grass.png", tm);
-            dirt = TileIO.loadTiles("ground//dirt.png", tm);
-            snow = TileIO.loadTiles("ground//snow.png", tm);
+            grass = tm.loadTiles("ground//grass.png");
+            dirt = tm.loadTiles("ground//dirt.png");
+            snow = tm.loadTiles("ground//snow.png");
             tm.saveMask("ground//mask_v1.png");
             System.out.println();
 

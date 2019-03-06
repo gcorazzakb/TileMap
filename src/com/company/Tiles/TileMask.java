@@ -1,5 +1,7 @@
 package com.company.Tiles;
 
+import com.company.Util;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -7,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
-import static com.company.Tiles.TileIO.*;
+import static com.company.Globals.*;
 
 public class TileMask {
 
@@ -42,6 +44,30 @@ public class TileMask {
             }
         }
 
+    }
+
+
+
+    public TileSet loadTiles(String pathToTileImg) throws IOException {
+        BufferedImage setImg = ImageIO.read(new File(pathToTileImg));
+        HashSet<Tile> tiles = new HashSet<>();
+        Map<Color, Color> colorMap = genColorMap();
+
+        for (int x = 0; x < mask.length; x++) {
+            for (int y = 0; y < mask[0].length; y++) {
+
+                TileEdge[] tileEdges=new TileEdge[4];
+
+                for (int i = 0; i < 4; i++) {
+                    TileEdge te=mask[x][y].borders[i];
+                    tileEdges[i] = new TileEdge(colorMap.get(te.getColor()));
+                }
+
+                Tile tile = new Tile(tileEdges, mask[x][y].getHeights(), Util.img16(setImg, x, y));
+                tiles.add(tile);
+            }
+        }
+        return new TileSet(this, colorMap, tiles);
     }
 
 
@@ -124,19 +150,8 @@ public class TileMask {
         assets[W_CODE]=getTileEdge(W_CODE, maskImg,x,y);
         return assets;
     }
-
-    private int[][] getTileHeights(BufferedImage maskImg, int x, int y) {
-        int[][] heights=new int[2][2];
-        heights[0][0] = hmap.get(new Color(maskImg.getRGB(x*16+1,y*16+1)));
-        heights[1][0] = hmap.get(new Color(maskImg.getRGB(x*16+14,y*16+1)));
-        heights[1][1] = hmap.get(new Color(maskImg.getRGB(x*16+14,y*16+14)));
-        heights[0][1] = hmap.get(new Color(maskImg.getRGB(x*16+1,y*16+14)));
-        return heights;
-    }
-
     public TileEdge getTileEdge(int nesw, BufferedImage maskImg, int X, int Y){
         int x=0,y=0;
-        int hx=0,hy=0;
         switch (nesw){
             case N_CODE:{
                 x=10; y=0;
@@ -162,6 +177,17 @@ public class TileMask {
 
         return tileEdge;
     }
+
+    private int[][] getTileHeights(BufferedImage maskImg, int x, int y) {
+        int[][] heights=new int[2][2];
+        heights[0][0] = hmap.get(new Color(maskImg.getRGB(x*16+1,y*16+1)));
+        heights[1][0] = hmap.get(new Color(maskImg.getRGB(x*16+14,y*16+1)));
+        heights[1][1] = hmap.get(new Color(maskImg.getRGB(x*16+14,y*16+14)));
+        heights[0][1] = hmap.get(new Color(maskImg.getRGB(x*16+1,y*16+14)));
+        return heights;
+    }
+
+
 /*
     public TileEdge getTileEdgeByColor(Color color){
         return getEdge(color, edges);

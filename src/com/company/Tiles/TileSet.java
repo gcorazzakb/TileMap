@@ -5,7 +5,7 @@ import com.company.Map.MapTile;
 import java.awt.*;
 import java.util.*;
 
-import static com.company.Tiles.TileIO.*;
+import static com.company.Globals.*;
 
 public class TileSet {
     TileMask tm;

@@ -1,14 +1,17 @@
 package com.company;
 
+import com.company.Map.GameMap;
+import com.company.Tiles.TileIO;
+import com.company.Tiles.TileMask;
+import com.company.Tiles.TileSet;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
         System.out.println("started");
-        init();
         GameMap gameMap = new GameMap();
         JFrame frame = new JFrame("Map");
         JPanel panel = new JPanel() {
@@ -32,9 +35,5 @@ public class Main {
             }
         });*/
 
-    }
-
-    private static void init(){
-        TileIO.init();
     }
 }

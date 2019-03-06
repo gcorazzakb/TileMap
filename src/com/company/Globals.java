@@ -1,5 +1,5 @@
 package com.company;
 
-public class Statics {
+public class Globals {
     public static final int CHUNKSIZE=50;
 }

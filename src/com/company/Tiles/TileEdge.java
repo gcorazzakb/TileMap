@@ -1,16 +1,12 @@
-package com.company;
+package com.company.Tiles;
 
 import java.awt.*;
 
 public class TileEdge{
-    private String name;
     private Color color;
-    private int heightChange=0;
 
-    public TileEdge(String name, Color color, int heightChange) {
-        this.name = name;
+    public TileEdge(Color color) {
         this.color = color;
-        this.heightChange = heightChange;
     }
 
     @Override
@@ -18,14 +14,8 @@ public class TileEdge{
         return ((TileEdge)obj).color.equals(color);
     }
 
-    public String getName() {
-        return name;
-    }
 
     public Color getColor() {
         return color;
     }
-
-
-
 }

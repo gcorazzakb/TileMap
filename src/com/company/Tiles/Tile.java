@@ -1,16 +1,17 @@
-package com.company;
+package com.company.Tiles;
 
 import java.awt.image.BufferedImage;
 
-class Tile {
-    //private byte[][] height;   //3x3
+public class Tile {
+    private int[][] heights;   //2x2
     public TileEdge[] borders; //private
     //private boolean[][] block; //3x3
     private BufferedImage img;
 
-    public Tile(TileEdge[] borders, BufferedImage img) {
+    public Tile(TileEdge[] borders, int[][] heights, BufferedImage img) {
         this.borders = borders;
         this.img=img;
+        this.heights=heights;
         /*height=new byte[3][3];
         block=new boolean[3][3];*/
     }
@@ -18,6 +19,10 @@ class Tile {
     public Tile(Tile cTile){
         borders=cTile.borders;
         img=cTile.img;
+    }
+
+    public int[][] getHeights() {
+        return heights;
     }
 
     public BufferedImage getImg() {

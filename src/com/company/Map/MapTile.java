@@ -1,7 +1,9 @@
-package com.company;
+package com.company.Map;
 
 
-public class MapTile extends Tile{
+import com.company.Tiles.Tile;
+
+public class MapTile extends Tile {
     public final long x,y;
     public MapTile N,S,W,E;
 

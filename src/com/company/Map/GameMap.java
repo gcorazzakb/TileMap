@@ -31,11 +31,9 @@ public class GameMap {
         }
 
         try {
-            TileMask tm = new TileMask("img//ground//mask_v1.png");
-            grass = tm.loadTiles("img//ground//grass.png");
-            dirt = tm.loadTiles("img//ground//dirt.png");
-            snow = tm.loadTiles("img//ground//snow.png");
-            tm.saveMask("img//ground//mask_v1_2.png");
+            TileMask tm = new TileMask("img//ground1//mask_v1.png");
+            grass = tm.loadTiles("img//ground1//grass.png");
+            tm.saveMask("img//ground1//mask_v1_2.png");
             System.out.println("saved mask");
 
         } catch (IOException e) {

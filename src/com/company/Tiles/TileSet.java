@@ -12,6 +12,8 @@ public class TileSet {
     Map<Color, Color> colorMap;
     Set<Tile> tileSet;
 
+    Random random = new Random(1323);
+
     public TileSet(TileMask tm, Map<Color, Color> cm, Set<Tile> tileSet) {
         this.tm = tm;
         this.tileSet = tileSet;
@@ -28,7 +30,8 @@ public class TileSet {
         if (tileSet.isEmpty()) {
             return null;
         }
-        int randI = (int) (Math.random() * tileSet.size()) + 1;
+
+        int randI = (int) (random.nextFloat() * tileSet.size()) + 1;
         Iterator<Tile> iterator = tileSet.iterator();
         for (int i = 0; i < randI; i++) {
             Tile nTile = iterator.next();
@@ -55,6 +58,8 @@ public class TileSet {
 
     public TileSet getTiles(TileEdge[] edges, int[][] heights) {
         Iterator<Tile> iterator = tileSet.iterator();
+
+        Set<Tile> tileSet = new HashSet<>();
         while (iterator.hasNext()) {
             Tile tile = iterator.next();
             boolean works = true;
@@ -66,12 +71,8 @@ public class TileSet {
             }
 
             if (heights != null)
-                for (int x = 0; x < 2; x++) {
-                    for (int y = 0; y < 2; y++) {
-                        if (heights[x][y] != -1 && heights[x][y] != tile.getHeights()[x][y]) {
-                            works = false;
-                        }
-                    }
+                if (!matchesHeights(tile.getHeights(), heights)) {
+                    works = false;
                 }
 
             if (works) {
@@ -79,6 +80,17 @@ public class TileSet {
             }
         }
         return new TileSet(this, tileSet);
+    }
+
+    private boolean matchesHeights(int[][] a,int [][] b){
+        for (int x = 0; x < 2; x++) {
+            for (int y = 0; y < 2; y++) {
+                if (a[x][y]!=-1 && b[x][y]!=-1 && a[x][y] != b[x][y]) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private static TileEdge[] tilesToEdges(Tile[] tilesNESW) {

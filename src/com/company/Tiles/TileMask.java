@@ -38,14 +38,19 @@ public class TileMask {
 
         for (int x = 0; x < resX; x++) {
             for (int y = 0; y < resY; y++) {
-                TileEdge[] tileEdges = getTileEdges(maskImg, x, y);
-                int[][] heights= getTileHeights(maskImg,x,y);
-                mask[x][y]=new Tile(tileEdges, heights, null);
+                if(hasTileAt(maskImg,x, y)){
+                    TileEdge[] tileEdges = getTileEdges(maskImg, x, y);
+                    int[][] heights= getTileHeights(maskImg,x,y);
+                    mask[x][y]=new Tile(tileEdges, heights, null);
+                }
             }
         }
 
     }
 
+    private boolean hasTileAt(BufferedImage maskImg, int x, int y) {
+        return !(maskImg.getRGB(x*16,y*16)==Color.WHITE.getRGB());
+    }
 
 
     public TileSet loadTiles(String pathToTileImg) throws IOException {
@@ -55,16 +60,17 @@ public class TileMask {
 
         for (int x = 0; x < mask.length; x++) {
             for (int y = 0; y < mask[0].length; y++) {
+                if(mask[x][y]!=null) {
+                    TileEdge[] tileEdges = new TileEdge[4];
 
-                TileEdge[] tileEdges=new TileEdge[4];
+                    for (int i = 0; i < 4; i++) {
+                        TileEdge te = mask[x][y].borders[i];
+                        tileEdges[i] = new TileEdge(colorMap.get(te.getColor()));
+                    }
 
-                for (int i = 0; i < 4; i++) {
-                    TileEdge te=mask[x][y].borders[i];
-                    tileEdges[i] = new TileEdge(colorMap.get(te.getColor()));
+                    Tile tile = new Tile(tileEdges, mask[x][y].getHeights(), Util.img16(setImg, x, y));
+                    tiles.add(tile);
                 }
-
-                Tile tile = new Tile(tileEdges, mask[x][y].getHeights(), Util.img16(setImg, x, y));
-                tiles.add(tile);
             }
         }
         return new TileSet(this, colorMap, tiles);
@@ -82,7 +88,7 @@ public class TileMask {
         for (int x = 0; x < mask.length; x++) {
             for (int y = 0; y < mask[0].length; y++) {
 
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i < 4 && mask[x][y]!=null; i++) {
                     Color color = cMap.get(mask[x][y].borders[i].getColor());
                     if(color== null){
                         color=Color.getHSBColor(random.nextFloat(), 0.5f + random.nextFloat() / 2, 0.5f + random.nextFloat() / 2);
@@ -101,36 +107,7 @@ public class TileMask {
         Graphics g = tileSetMaskImg.getGraphics();
         for (int x = 0; x < mask.length; x++) {
             for (int y = 0; y < mask[0].length; y++) {
-                int xoff=x*16, yoff=y*16;
-                int[][] heights = mask[x][y].getHeights();
-
-                //edges
-                g.setColor(mask[x][y].borders[N_CODE].getColor());
-                g.drawLine(xoff,yoff,xoff+15,yoff);
-
-                g.setColor(mask[x][y].borders[E_CODE].getColor());
-                g.drawLine(xoff+15,yoff+15,xoff+15,yoff);
-
-                g.setColor(mask[x][y].borders[S_CODE].getColor());
-                g.drawLine(xoff+15,yoff+15,xoff,yoff+15);
-
-                g.setColor(mask[x][y].borders[W_CODE].getColor());
-                g.drawLine(xoff,yoff,xoff,yoff+15);
-
-
-                //heights
-                g.setColor(rhmap.get(heights[0][0]));
-                g.drawRect(xoff+1,yoff+1,0,0);
-
-                g.setColor(rhmap.get(heights[1][0]));
-                g.drawRect(xoff+14,yoff+1,0,0);
-
-                g.setColor(rhmap.get(heights[1][1]));
-                g.drawRect(xoff+14,yoff+14,0,0);
-
-                g.setColor(rhmap.get(heights[0][1]));
-                g.drawRect(xoff+1,yoff+14,0,0);
-
+                g.drawImage(drawTileMask(mask[x][y]),x*16,y*16,null);
             }
         }
 
@@ -139,6 +116,48 @@ public class TileMask {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private BufferedImage drawTileMask(Tile t){
+        BufferedImage tileMask = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = tileMask.getGraphics();
+
+        if(t==null){
+            g.setColor(Color.white);
+            g.fillRect(0,0,16,16);
+            return tileMask;
+        }
+
+        int[][] heights = t.getHeights();
+
+        //edges
+        g.setColor(t.borders[N_CODE].getColor());
+        g.drawLine(0,0,15,0);
+
+        g.setColor(t.borders[E_CODE].getColor());
+        g.drawLine(15,15,15,0);
+
+        g.setColor(t.borders[S_CODE].getColor());
+        g.drawLine(15,15,0,15);
+
+        g.setColor(t.borders[W_CODE].getColor());
+        g.drawLine(0,0,0,15);
+
+
+        //heights
+        g.setColor(rhmap.get(heights[0][0]));
+        g.drawRect(1,1,0,0);
+
+        g.setColor(rhmap.get(heights[1][0]));
+        g.drawRect(14,1,0,0);
+
+        g.setColor(rhmap.get(heights[1][1]));
+        g.drawRect(14,14,0,0);
+
+        g.setColor(rhmap.get(heights[0][1]));
+        g.drawRect(1,14,0,0);
+
+        return tileMask;
     }
 
 
@@ -180,7 +199,9 @@ public class TileMask {
 
     private int[][] getTileHeights(BufferedImage maskImg, int x, int y) {
         int[][] heights=new int[2][2];
-        heights[0][0] = hmap.get(new Color(maskImg.getRGB(x*16+1,y*16+1)));
+        Color color = new Color(maskImg.getRGB(x * 16 + 1, y * 16 + 1));
+        Integer integer = hmap.get(color);
+        heights[0][0] = integer;
         heights[1][0] = hmap.get(new Color(maskImg.getRGB(x*16+14,y*16+1)));
         heights[1][1] = hmap.get(new Color(maskImg.getRGB(x*16+14,y*16+14)));
         heights[0][1] = hmap.get(new Color(maskImg.getRGB(x*16+1,y*16+14)));

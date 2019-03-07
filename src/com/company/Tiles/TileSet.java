@@ -54,7 +54,6 @@ public class TileSet {
     }
 
     public TileSet getTiles(TileEdge[] edges, int[][] heights) {
-        Set<Tile> tileSet = new HashSet<>();
         Iterator<Tile> iterator = tileSet.iterator();
         while (iterator.hasNext()) {
             Tile tile = iterator.next();

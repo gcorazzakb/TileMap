@@ -11,7 +11,6 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("started");
         GameMap gameMap = new GameMap();
         JFrame frame = new JFrame("Map");
         JPanel panel = new JPanel() {

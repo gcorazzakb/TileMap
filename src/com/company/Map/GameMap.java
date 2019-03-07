@@ -1,7 +1,6 @@
 package com.company.Map;
 
 import com.company.Tiles.Tile;
-import com.company.Tiles.TileIO;
 import com.company.Tiles.TileMask;
 import com.company.Tiles.TileSet;
 
@@ -15,10 +14,10 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 public class GameMap {
     private static  Map<String, MapTile> mapXY;
-    private static int[][] heightMap= new int[21][21];
+    private static float[][] heightMap= new float[21][21];
     private static TileSet grass, dirt, snow, all;
 
-    public static void init() {
+    public GameMap() {
         mapXY = new HashMap<>();
         /*mapXY.put("0,0",new MapTile(TileIO.getStartTile(),0,0));
         mapXY.put("1,0",new MapTile(TileIO.getTileByImagePoint(new Point(2,12)),1,0));
@@ -32,12 +31,12 @@ public class GameMap {
         }
 
         try {
-            TileMask tm = new TileMask("ground//mask.png");
-            grass = tm.loadTiles("ground//grass.png");
-            dirt = tm.loadTiles("ground//dirt.png");
-            snow = tm.loadTiles("ground//snow.png");
-            tm.saveMask("ground//mask_v1.png");
-            System.out.println();
+            TileMask tm = new TileMask("img//ground//mask_v1.png");
+            grass = tm.loadTiles("img//ground//grass.png");
+            dirt = tm.loadTiles("img//ground//dirt.png");
+            snow = tm.loadTiles("img//ground//snow.png");
+            tm.saveMask("img//ground//mask_v1_2.png");
+            System.out.println("saved mask");
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,7 +51,7 @@ public class GameMap {
                 }
 
                 MapTile[] tilesNESW = getTilesNESW(x, y);
-                int[][] heights= getHeights(x,y);
+                int[][] heights= getHeightChangesInt(x,y);
                 Tile tile = grass.getRandomTile(tilesNESW, heights);
                 if(tile!=null)
                     mapXY.put(x+","+y,new MapTile(tile, x, y));
@@ -62,13 +61,22 @@ public class GameMap {
         }
     }
 
-    private static  int[][] getHeights(int X, int Y) {
+    private static  int[][] getHeightChangesInt(int X, int Y) {
         int[][] heights =new int[2][2];
+        float min=Float.MAX_VALUE;
+
         for (int x = 0; x < 2; x++) {
             for (int y = 0; y < 2; y++) {
-                heights[x][y]=heightMap[X+x][Y+y];
+                min=Math.min(heightMap[X+x][Y+y], min);
             }
         }
+
+        for (int x = 0; x < 2; x++) {
+            for (int y = 0; y < 2; y++) {
+                heights[x][y]=(int)Math.floor(heightMap[X+x][Y+y]-min);
+            }
+        }
+
         return heights;
     }
 

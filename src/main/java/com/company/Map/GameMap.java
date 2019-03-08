@@ -6,6 +6,7 @@ import com.company.Tiles.TileSet;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +32,7 @@ public class GameMap {
         }
 
         try {
+            System.out.println(new File("").getAbsolutePath());
             TileMask tm = new TileMask("img//ground1//mask_v1.png");
             grass = tm.loadTiles("img//ground1//grass.png");
             tm.saveMask("img//ground1//mask_v1_2.png");

@@ -1,7 +1,6 @@
 package com.company;
 
 import com.company.Map.GameMap;
-import com.company.Tiles.TileIO;
 import com.company.Tiles.TileMask;
 import com.company.Tiles.TileSet;
 
@@ -11,7 +10,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        GameMap gameMap = new GameMap();
+        final GameMap gameMap = new GameMap();
         JFrame frame = new JFrame("Map");
         JPanel panel = new JPanel() {
             @Override

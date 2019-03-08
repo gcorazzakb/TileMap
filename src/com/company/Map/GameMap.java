@@ -49,8 +49,8 @@ public class GameMap {
                 }
 
                 MapTile[] tilesNESW = getTilesNESW(x, y);
-                int[][] heights= getHeightChangesInt(x,y);
-                Tile tile = grass.getRandomTile(tilesNESW, heights);
+                //int[][] heights= getHeightChangesInt(x,y);
+                Tile tile = grass.getRandomTile(tilesNESW, null);
                 if(tile!=null)
                     mapXY.put(x+","+y,new MapTile(tile, x, y));
                 else

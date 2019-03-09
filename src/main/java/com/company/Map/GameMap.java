@@ -1,8 +1,11 @@
 package com.company.Map;
 
 import com.company.Tiles.Tile;
+import com.company.Tiles.TileEdge;
 import com.company.Tiles.TileMask;
 import com.company.Tiles.TileSet;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.Multigraph;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,20 +17,26 @@ import java.util.Map;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 public class GameMap {
-    private static  Map<String, MapTile> mapXY;
+    private static Multigraph<MapTile, TileEdge> map= new Multigraph(DefaultEdge .class);
     private static float[][] heightMap= new float[21][21];
+
     private static TileSet grass, dirt, snow, all;
 
     public GameMap() {
-        mapXY = new HashMap<>();
         /*mapXY.put("0,0",new MapTile(TileIO.getStartTile(),0,0));
         mapXY.put("1,0",new MapTile(TileIO.getTileByImagePoint(new Point(2,12)),1,0));
         mapXY.put("0,1",new MapTile(TileIO.getTileByImagePoint(new Point(1,13)),0,1));*/
         /*MapTile[] tilesNESW1 = getTilesNESW(0, 1);*/
 
-        for (int x = 2; x < 4; x++) {
-            for (int y =2; y<4; y++){
+        for (int x = 5; x < heightMap.length; x++) {
+            for (int y =0; y<heightMap[0].length; y++){
                 heightMap[x][y]=1;
+            }
+        }
+
+        for (int x = 10; x < heightMap.length; x++) {
+            for (int y =0; y<heightMap[0].length; y++){
+                heightMap[x][y]=2;
             }
         }
 
@@ -41,7 +50,6 @@ public class GameMap {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         for (int x = 0; x < 20; x++) {
             for (int y =0; y<20; y++){

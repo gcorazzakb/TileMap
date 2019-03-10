@@ -1,9 +1,7 @@
 package com.company.Map;
 
-import com.company.Tiles.Tile;
-import com.company.Tiles.TileEdge;
-import com.company.Tiles.TileMask;
-import com.company.Tiles.TileSet;
+import com.company.Tiles.*;
+import javafx.util.Pair;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.Multigraph;
 
@@ -12,13 +10,15 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 public class GameMap {
     private static Multigraph<MapTile, TileEdge> map= new Multigraph(DefaultEdge .class);
-    private static float[][] heightMap= new float[21][21];
+
+
 
     private static TileSet grass, dirt, snow, all;
 
@@ -28,17 +28,7 @@ public class GameMap {
         mapXY.put("0,1",new MapTile(TileIO.getTileByImagePoint(new Point(1,13)),0,1));*/
         /*MapTile[] tilesNESW1 = getTilesNESW(0, 1);*/
 
-        for (int x = 5; x < heightMap.length; x++) {
-            for (int y =0; y<heightMap[0].length; y++){
-                heightMap[x][y]=1;
-            }
-        }
 
-        for (int x = 10; x < heightMap.length; x++) {
-            for (int y =0; y<heightMap[0].length; y++){
-                heightMap[x][y]=2;
-            }
-        }
 
         try {
             System.out.println(new File("").getAbsolutePath());
@@ -69,24 +59,7 @@ public class GameMap {
         }
     }
 
-    private static  int[][] getHeightChangesInt(int X, int Y) {
-        int[][] heights =new int[2][2];
-        float min=Float.MAX_VALUE;
 
-        for (int x = 0; x < 2; x++) {
-            for (int y = 0; y < 2; y++) {
-                min=Math.min(heightMap[X+x][Y+y], min);
-            }
-        }
-
-        for (int x = 0; x < 2; x++) {
-            for (int y = 0; y < 2; y++) {
-                heights[x][y]=(int)Math.floor(heightMap[X+x][Y+y]-min);
-            }
-        }
-
-        return heights;
-    }
 
     private static MapTile[] getTilesNESW(long x, long y){
         MapTile[] tileAround =new MapTile[4];

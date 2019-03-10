@@ -17,6 +17,9 @@ public class Tile {
     }
 
     public Tile(Tile cTile){
+        if (cTile==null)
+            return;
+
         borders=cTile.borders;
         img=cTile.img;
     }

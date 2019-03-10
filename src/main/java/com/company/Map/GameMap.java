@@ -1,5 +1,6 @@
 package com.company.Map;
 
+import com.company.Globals;
 import com.company.Tiles.*;
 import javafx.util.Pair;
 import org.jgrapht.graph.DefaultEdge;
@@ -22,6 +23,8 @@ public class GameMap {
 
     private static TileSet grass, dirt, snow, all;
 
+    MapPart part;
+
     public GameMap() {
         /*mapXY.put("0,0",new MapTile(TileIO.getStartTile(),0,0));
         mapXY.put("1,0",new MapTile(TileIO.getTileByImagePoint(new Point(2,12)),1,0));
@@ -34,6 +37,7 @@ public class GameMap {
             System.out.println(new File("").getAbsolutePath());
             TileMask tm = new TileMask("img//ground1//mask_v1.png");
             grass = tm.loadTiles("img//ground1//grass.png");
+            Globals.allTiles=grass;
             tm.saveMask("img//ground1//mask_v1_2.png");
             System.out.println("saved mask");
 
@@ -41,25 +45,11 @@ public class GameMap {
             e.printStackTrace();
         }
 
-        for (int x = 0; x < 20; x++) {
-            for (int y =0; y<20; y++){
+        part= new MapPart(0,0,20,20);
 
-                if (x==1&& y==1){
-                    System.out.println();
-                }
-
-                MapTile[] tilesNESW = getTilesNESW(x, y);
-                //int[][] heights= getHeightChangesInt(x,y);
-                Tile tile = grass.getRandomTile(tilesNESW, null);
-                if(tile!=null)
-                    mapXY.put(x+","+y,new MapTile(tile, x, y));
-                else
-                    System.out.println("found no tile");
-            }
-        }
     }
 
-
+/*
 
     private static MapTile[] getTilesNESW(long x, long y){
         MapTile[] tileAround =new MapTile[4];
@@ -76,7 +66,7 @@ public class GameMap {
             tileAround[3]=mapXY.get(xy(x-1,y));
         }
         return tileAround;
-    }
+    }*/
 
     private static String xy(long x, long y){
         return x+","+y;
@@ -88,9 +78,11 @@ public class GameMap {
         Graphics2D graphics = (Graphics2D) mapImage.getGraphics();
         graphics.scale(scale,scale);
 
-        for (int x=0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                MapTile tile = mapXY.get(xy(x+X, y+Y));
+        MapTile[][] map = part.getMap();
+
+        for (int x=0; x < map.length; x++) {
+            for (int y = 0; y < map[0].length; y++) {
+                MapTile tile = map[x][y];
                 if(tile!=null)
                     graphics.drawImage(tile.getImg(),x*16,y*16,null);
             }

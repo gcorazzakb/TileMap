@@ -6,4 +6,8 @@ public class TileCorner {
     public TileCorner(float height) {
         this.height = height;
     }
+
+    public float getHeight() {
+        return height;
+    }
 }

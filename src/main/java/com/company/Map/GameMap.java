@@ -31,8 +31,6 @@ public class GameMap {
         mapXY.put("0,1",new MapTile(TileIO.getTileByImagePoint(new Point(1,13)),0,1));*/
         /*MapTile[] tilesNESW1 = getTilesNESW(0, 1);*/
 
-
-
         try {
             System.out.println(new File("").getAbsolutePath());
             TileMask tm = new TileMask("img//ground1//mask_v1.png");

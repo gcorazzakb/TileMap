@@ -19,6 +19,7 @@ public class TileMask {
     private Map<Color, Integer> hmap= new HashMap<>();
     private Map<Integer, Color> rhmap= new HashMap<>();
 
+
     public TileMask(String pathToFile) throws IOException {
         BufferedImage maskImg = ImageIO.read(new File(pathToFile));
 
@@ -40,8 +41,7 @@ public class TileMask {
             for (int y = 0; y < resY; y++) {
                 if(hasTileAt(maskImg,x, y)){
                     TileEdge[] tileEdges = getTileEdges(maskImg, x, y);
-                    int[][] heights= getTileHeights(maskImg,x,y);
-                    mask[x][y]=new Tile(tileEdges, heights, null);
+                    mask[x][y]=new Tile(tileEdges, null, null);
                 }
             }
         }
@@ -92,7 +92,7 @@ public class TileMask {
                     Color color = cMap.get(mask[x][y].borders[i].getColor());
                     if(color== null){
                         color=Color.getHSBColor(random.nextFloat(), 0.5f + random.nextFloat() / 2, 0.5f + random.nextFloat() / 2);
-                        cMap.put(mask[x][y].borders[i].getColor(),color);
+                        cMap.put(mask[x][y].borders[i].getColor(),mask[x][y].borders[i].getColor());// no mapping
                     }
                 }
 
@@ -143,20 +143,6 @@ public class TileMask {
         g.setColor(t.borders[W_CODE].getColor());
         g.drawLine(0,0,0,15);
 
-
-        //heights
-        g.setColor(rhmap.get(heights[0][0]));
-        g.drawRect(1,1,0,0);
-
-        g.setColor(rhmap.get(heights[1][0]));
-        g.drawRect(14,1,0,0);
-
-        g.setColor(rhmap.get(heights[1][1]));
-        g.drawRect(14,14,0,0);
-
-        g.setColor(rhmap.get(heights[0][1]));
-        g.drawRect(1,14,0,0);
-
         return tileMask;
     }
 
@@ -195,17 +181,6 @@ public class TileMask {
         TileEdge tileEdge=new TileEdge(color);
 
         return tileEdge;
-    }
-
-    private int[][] getTileHeights(BufferedImage maskImg, int x, int y) {
-        int[][] heights=new int[2][2];
-        Color color = new Color(maskImg.getRGB(x * 16 + 1, y * 16 + 1));
-        Integer integer = hmap.get(color);
-        heights[0][0] = integer;
-        heights[1][0] = hmap.get(new Color(maskImg.getRGB(x*16+14,y*16+1)));
-        heights[1][1] = hmap.get(new Color(maskImg.getRGB(x*16+14,y*16+14)));
-        heights[0][1] = hmap.get(new Color(maskImg.getRGB(x*16+1,y*16+14)));
-        return heights;
     }
 
 

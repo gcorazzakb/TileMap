@@ -22,7 +22,7 @@ public class MapPart {
     //private final float[][] heightMap;
     private final MapTile[][] map;
     private static final float threashold=0.5f;
-    private Color trans= Color.red, alpha =Color.BLACK, flat=Color.green;
+    private Color trans= Color.magenta, alpha =Color.BLACK, flat=Color.green;
 
     public MapPart(int x, int y, int width, int height) {
         X = x;
@@ -41,14 +41,14 @@ public class MapPart {
     }
 
     private MapTile[][] generateMap(float[][] heightMap) {
-        return genMapLayer(heightMap, 0);
+        return genMapLayer(heightMap, 1);
     }
 
     private MapTile[][] genMapLayer(float[][] heightMap, int l){
         int[][] layer = getLayer(heightMap, l);
 
-        Pair<Multigraph<TileCorner, TileEdge>, TileCorner[][]> multigraphPair = generateColorTileGraph(heightMap.length, heightMap[0].length);
-        paintOnGraphWithHeights(multigraphPair, layer, heightMap);
+        Pair<Multigraph<TileCorner, TileEdge>, TileCorner[][]> multigraphPair = generateHeightGraphMap(heightMap);
+        paintOnGraphWithHeights(multigraphPair, layer);
 
         return  getTileMap(multigraphPair);
     }
@@ -73,7 +73,7 @@ public class MapPart {
         return tileMap;
     }
 
-    private void paintOnGraphWithHeights(Pair<Multigraph<TileCorner, TileEdge>, TileCorner[][]> multigraphPair, int[][] layer,float[][] heightMap ) {
+    private void paintOnGraphWithHeights(Pair<Multigraph<TileCorner, TileEdge>, TileCorner[][]> multigraphPair, int[][] layer ) {
         Multigraph<TileCorner, TileEdge> map = multigraphPair.getKey();
         TileCorner[][] corners = multigraphPair.getValue();
         for (int x = 0; x < layer.length; x++) {
@@ -84,14 +84,19 @@ public class MapPart {
                     Iterator<TileEdge> edit = tileEdges.iterator();
                     while (edit.hasNext()) {
                         TileEdge edge = edit.next();
-                        TileCorner otherside=map.getEdgeSource(edge)==corner?map.getEdgeSource(edge):map.getEdgeTarget(edge);
-                        float gradient=corner.getHeight()-otherside.getHeight();
-                        if(gradient>threashold){
-                            //trans
-                            edge.setColor(trans);
-                        }else{
-                            //green
+                        TileCorner otherside=map.getEdgeSource(edge);
+                        if (otherside==corner){
+                            otherside=map.getEdgeTarget(edge);
+                        }
+                        if(layer[otherside.getX()][otherside.getY()]==0){
                             edge.setColor(flat);
+                        }else{
+                            edge.setColor(trans);
+                            /*float gradient=corner.getHeight()-otherside.getHeight();
+                            if(gradient<threashold){
+                                //green
+                                edge.setColor(flat);
+                            }*/
                         }
                     }
                 }
@@ -108,10 +113,14 @@ public class MapPart {
         }
 
         for (int x = 10; x < heightMap.length; x++) {
-            for (int y =0; y<heightMap[0].length/2; y++){
+            for (int y =0; y<heightMap[0].length/4; y++){
                 heightMap[x][y]=2;
             }
         }
+
+        heightMap[0][0]=1;
+        heightMap[1][0]=0.7f;
+        heightMap[2][0]=0.2f;
 
         return heightMap;
     }
@@ -130,14 +139,14 @@ public class MapPart {
         return layer;
     }
 
-    private  Pair<Multigraph<TileCorner, TileEdge>, TileCorner[][]> generateColorTileGraph(int w, int h){
+    private  Pair<Multigraph<TileCorner, TileEdge>, TileCorner[][]> generateHeightGraphMap(float[][]heightMap){
         Multigraph<TileCorner, TileEdge> tileGraph=new Multigraph(DefaultEdge.class);
 
-        TileCorner[][] graphBuilder= new TileCorner[w][h];
+        TileCorner[][] graphBuilder= new TileCorner[heightMap.length][heightMap[0].length];
 
         for (int x = 0; x < graphBuilder.length; x++) {
             for (int y =0; y< graphBuilder[0].length; y++){
-                TileCorner tileCorner = new TileCorner(0);
+                TileCorner tileCorner = new TileCorner(heightMap[x][y],x,y);
                 graphBuilder[x][y]=tileCorner;
                 tileGraph.addVertex(tileCorner);
             }

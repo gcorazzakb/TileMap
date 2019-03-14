@@ -66,8 +66,8 @@ public class MapPart {
                 edges[S_CODE]= map.getEdge(corners[x+1][y+1],corners[x][y+1]);
                 edges[W_CODE]= map.getEdge(corners[x][y+1],corners[x][y]);
 
-                Tile tile = Globals.allTiles.getTiles(edges).getRandomTile();
-                tileMap[x][y]=new MapTile(tile,x,y);
+                //Tile tile = Globals.allTiles.getTiles(edges).getRandomTile();
+                //tileMap[x][y]=new MapTile(tile,x,y);
             }
         }
         return tileMap;

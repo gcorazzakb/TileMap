@@ -30,6 +30,7 @@ public class GameMap {
         mapXY.put("1,0",new MapTile(TileIO.getTileByImagePoint(new Point(2,12)),1,0));
         mapXY.put("0,1",new MapTile(TileIO.getTileByImagePoint(new Point(1,13)),0,1));*/
         /*MapTile[] tilesNESW1 = getTilesNESW(0, 1);*/
+/*
 
         try {
             System.out.println(new File("").getAbsolutePath());
@@ -42,6 +43,7 @@ public class GameMap {
         } catch (IOException e) {
             e.printStackTrace();
         }
+*/
 
         part= new MapPart(0,0,20,20);
 

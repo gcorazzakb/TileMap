@@ -41,7 +41,7 @@ public class TileMask {
             for (int y = 0; y < resY; y++) {
                 if(hasTileAt(maskImg,x, y)){
                     TileEdge[] tileEdges = getTileEdges(maskImg, x, y);
-                    mask[x][y]=new Tile(tileEdges, null, null);
+                    //mask[x][y]=new Tile(tileEdges, null, null);
                 }
             }
         }
@@ -51,6 +51,7 @@ public class TileMask {
     private boolean hasTileAt(BufferedImage maskImg, int x, int y) {
         return !(maskImg.getRGB(x*16,y*16)==Color.WHITE.getRGB());
     }
+/*
 
 
     public TileSet loadTiles(String pathToTileImg) throws IOException {
@@ -145,6 +146,7 @@ public class TileMask {
 
         return tileMask;
     }
+*/
 
 
     public TileEdge[] getTileEdges(BufferedImage maskImg, int x, int y) {

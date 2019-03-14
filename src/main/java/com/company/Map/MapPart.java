@@ -31,7 +31,8 @@ public class MapPart {
 
     {
         try {
-            grass = new TileSet("./img/ground2/grass2.png", Color.BLACK,Color.green);
+            grass = TileSet.loadSmallTileSet("./img/ground2/grassAir.png", Color.BLACK,Color.green);
+            //grass = new TileSet("./img/ground2/grass2.png", Color.BLACK,Color.green);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -138,6 +139,8 @@ public class MapPart {
                 heightMap[x][y]=2;
             }
         }
+
+        heightMap[4][3]=1;
 
 
         return heightMap;

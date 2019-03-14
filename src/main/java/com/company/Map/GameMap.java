@@ -79,17 +79,15 @@ public class GameMap {
         graphics.scale(scale, scale);
 
         Tile[][][] map = part.getMap();
-        int i;
-        //for (int i = 0; i < layerHeight; i++) {
-            for (int x = 0; x < map.length; x++) {
-                for (int y = 0; y < map[0].length; y++) {
-                    i=0;
+        for (int i = 0; i < layerHeight; i++) {
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
                     Tile tile = map[i][x][y];
                     if (tile != null)
                         graphics.drawImage(tile.getImg(), x * 16, y * 16, null);
                 }
             }
-        //}
+        }
         return mapImage;
     }
 }

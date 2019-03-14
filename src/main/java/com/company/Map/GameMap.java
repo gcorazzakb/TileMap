@@ -73,12 +73,16 @@ public class GameMap {
     }
 
     public BufferedImage drawMap(long X, long Y, int width, int height) {
-        int scale = 5;
+        int scale = 3;
+        Tile[][][] map = part.getMap();
+
+        width=map[0].length;
+        height=map[0][0].length;
         BufferedImage mapImage = new BufferedImage(width * 16 * scale, height * 16 * scale, TYPE_INT_ARGB);
         Graphics2D graphics = (Graphics2D) mapImage.getGraphics();
         graphics.scale(scale, scale);
 
-        Tile[][][] map = part.getMap();
+
         for (int i = 0; i < layerHeight; i++) {
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {

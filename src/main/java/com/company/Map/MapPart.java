@@ -27,11 +27,13 @@ public class MapPart {
     private static final float threashold=0.5f;
     private Color trans= Color.magenta, alpha =Color.BLACK, flat=Color.green;
 
-    private TileSet grass;
+    private TileSet grassWater, grassAir;
 
     {
         try {
-            grass = TileSet.loadSmallTileSet("./img/ground2/grassAir.png", Color.BLACK,Color.green);
+            grassWater = TileSet.loadSmallTileSet("./img/ground2/grassWater.png", Color.BLUE,Color.green);
+            grassAir = TileSet.loadSmallTileSet("./img/ground2/grassAir.png", Color.BLACK,Color.green);
+
             //grass = new TileSet("./img/ground2/grass2.png", Color.BLACK,Color.green);
         } catch (IOException e) {
             e.printStackTrace();
@@ -57,7 +59,6 @@ public class MapPart {
     private Tile[][][] generateMap(float[][] heightMap,int layerHeight) {
         Tile[][][] map=new Tile[layerHeight][width][height];
 
-
         for (int i = 0; i < layerHeight; i++) {
             Tile[][] l = genMapLayer(heightMap, i);
             map[i]=l;
@@ -67,8 +68,12 @@ public class MapPart {
 
     private Tile[][] genMapLayer(float[][] heightMap, int l){
         int[][] layer = getLayer(heightMap, l);
-        System.out.println(Arrays.toString(layer));
-        return grass.paint(layer);
+
+        if (l==0){
+            return grassWater.paint(layer);
+        }else {
+            return grassAir.paint(layer);
+        }
     }
 /*
 
@@ -142,6 +147,11 @@ public class MapPart {
 
         heightMap[4][3]=1;
 
+        for (int x = 8; x < 10; x++) {
+            for (int y =8; y<10; y++){
+                heightMap[x][y]=3;
+            }
+        }
 
         return heightMap;
     }
@@ -152,7 +162,12 @@ public class MapPart {
         for (int x = 0; x < width; x++) {
             for (int y =0; y< height; y++){
                 if(heightMap[x][y]>l){
-                    layer[x][y]=1;
+                    if (heightMap[x][y]>l+2){
+                        layer[x][y]=-1;
+                    }else{
+                        layer[x][y]=1;
+                    }
+
                 }
             }
         }

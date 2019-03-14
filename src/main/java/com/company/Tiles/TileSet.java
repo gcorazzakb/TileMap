@@ -92,11 +92,14 @@ public class TileSet {
         Tile[][] tMap = new Tile[map.length][map[0].length];
         for (int x = 0; x < map.length; x++) {
             for (int y = 0; y < map[0].length; y++) {
-
-                boolean[][] boolSurr = getBoolSurr(x, y, map, false);
-                int bitTile = get8bitTile(boolSurr);
-                int mappedBitTile = bitIntToInt.get(bitTile);
-                tMap[x][y] = tiles[mappedBitTile];
+                if (map[x][y]==1) {
+                    boolean[][] boolSurr = getBoolSurr(x, y, map, true);
+                    int bitTile = get8bitTile(boolSurr);
+                    int mappedBitTile = bitIntToInt.get(bitTile);
+                    tMap[x][y] = tiles[mappedBitTile];
+                }else if(map[x][y]==0){
+                    tMap[x][y]=tiles[0];
+                }
             }
         }
         return tMap;
@@ -119,7 +122,9 @@ public class TileSet {
         if (x >= map.length || y >= map.length) {
             return b;
         }
-
+        if (map[x][y]==-1){
+            return b;
+        }
         return map[x][y] == 1;
 
     }

@@ -4,11 +4,14 @@ import com.company.Globals;
 import com.company.Tiles.Tile;
 import com.company.Tiles.TileCorner;
 import com.company.Tiles.TileEdge;
+import com.company.Tiles.TileSet;
 import javafx.util.Pair;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.Multigraph;
 
 import java.awt.*;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -19,39 +22,54 @@ public class MapPart {
     private static final int LAYERTOPTHREASH = 1;
     final int X,Y,width,height;
 
-    //private final float[][] heightMap;
-    private final MapTile[][] map;
+    private final float[][] heightMap;
+    private final Tile[][][] map;
     private static final float threashold=0.5f;
     private Color trans= Color.magenta, alpha =Color.BLACK, flat=Color.green;
 
-    public MapPart(int x, int y, int width, int height) {
+    private TileSet grass;
+
+    {
+        try {
+            grass = new TileSet("./img/ground2/grass2.png", Color.BLACK,Color.green);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public MapPart(int x, int y, int width, int height,int layerHeight) {
         X = x;
         Y = y;
         this.width = width;
         this.height = height;
 
-        float[][] heightMap=genHeightMap(new float[width][height]);
+        heightMap=genHeightMap(new float[width][height]);
 
-        map=generateMap(heightMap);
+        map=generateMap(heightMap, layerHeight);
 
     }
 
-    public MapTile[][] getMap() {
+    public Tile[][][] getMap() {
         return map;
     }
 
-    private MapTile[][] generateMap(float[][] heightMap) {
-        return genMapLayer(heightMap, 1);
+    private Tile[][][] generateMap(float[][] heightMap,int layerHeight) {
+        Tile[][][] map=new Tile[layerHeight][width][height];
+
+
+        for (int i = 0; i < layerHeight; i++) {
+            Tile[][] l = genMapLayer(heightMap, i);
+            map[i]=l;
+        }
+        return map;
     }
 
-    private MapTile[][] genMapLayer(float[][] heightMap, int l){
+    private Tile[][] genMapLayer(float[][] heightMap, int l){
         int[][] layer = getLayer(heightMap, l);
-
-        Pair<Multigraph<TileCorner, TileEdge>, TileCorner[][]> multigraphPair = generateHeightGraphMap(heightMap);
-        paintOnGraphWithHeights(multigraphPair, layer);
-
-        return  getTileMap(multigraphPair);
+        System.out.println(Arrays.toString(layer));
+        return grass.paint(layer);
     }
+/*
 
     private MapTile[][] getTileMap(Pair<Multigraph<TileCorner, TileEdge>, TileCorner[][]> graphMap){
         TileCorner[][] corners = graphMap.getValue();
@@ -92,35 +110,35 @@ public class MapPart {
                             edge.setColor(flat);
                         }else{
                             edge.setColor(trans);
-                            /*float gradient=corner.getHeight()-otherside.getHeight();
+                            */
+/*float gradient=corner.getHeight()-otherside.getHeight();
                             if(gradient<threashold){
                                 //green
                                 edge.setColor(flat);
-                            }*/
+                            }*//*
+
                         }
                     }
                 }
             }
         }
     }
+*/
 
 
     float[][] genHeightMap(float[][] heightMap){
-        for (int x = 5; x < heightMap.length; x++) {
-            for (int y =0; y<heightMap[0].length; y++){
+        for (int x = 0; x < 6; x++) {
+            for (int y =0; y<6; y++){
                 heightMap[x][y]=1;
             }
         }
 
-        for (int x = 10; x < heightMap.length; x++) {
-            for (int y =0; y<heightMap[0].length/4; y++){
+        for (int x = 3; x < 5; x++) {
+            for (int y =2; y<4; y++){
                 heightMap[x][y]=2;
             }
         }
 
-        heightMap[0][0]=1;
-        heightMap[1][0]=0.7f;
-        heightMap[2][0]=0.2f;
 
         return heightMap;
     }
@@ -130,15 +148,15 @@ public class MapPart {
 
         for (int x = 0; x < width; x++) {
             for (int y =0; y< height; y++){
-                if(heightMap[x][y]<l){
-                    layer[x][y]=-1;
+                if(heightMap[x][y]>l){
+                    layer[x][y]=1;
                 }
             }
         }
 
         return layer;
     }
-
+/*
     private  Pair<Multigraph<TileCorner, TileEdge>, TileCorner[][]> generateHeightGraphMap(float[][]heightMap){
         Multigraph<TileCorner, TileEdge> tileGraph=new Multigraph(DefaultEdge.class);
 
@@ -164,7 +182,7 @@ public class MapPart {
 
         return new Pair<>(tileGraph, graphBuilder);
 
-    }
+    }*/
 
 
 }

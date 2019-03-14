@@ -17,9 +17,9 @@ import java.util.Map;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 public class GameMap {
-    private static Multigraph<MapTile, TileEdge> map= new Multigraph(DefaultEdge .class);
+    private static Multigraph<MapTile, TileEdge> map = new Multigraph(DefaultEdge.class);
 
-
+    int layerHeight = 3;
 
     private static TileSet grass, dirt, snow, all;
 
@@ -45,7 +45,7 @@ public class GameMap {
         }
 */
 
-        part= new MapPart(0,0,20,20);
+        part = new MapPart(0, 0, 20, 20, layerHeight);
 
     }
 
@@ -68,25 +68,28 @@ public class GameMap {
         return tileAround;
     }*/
 
-    private static String xy(long x, long y){
-        return x+","+y;
+    private static String xy(long x, long y) {
+        return x + "," + y;
     }
 
-    public BufferedImage drawMap(long X, long Y, int width, int height){
-        int scale=5;
-        BufferedImage mapImage = new BufferedImage(width*16*scale, width*16*scale, TYPE_INT_ARGB);
+    public BufferedImage drawMap(long X, long Y, int width, int height) {
+        int scale = 5;
+        BufferedImage mapImage = new BufferedImage(width * 16 * scale, height * 16 * scale, TYPE_INT_ARGB);
         Graphics2D graphics = (Graphics2D) mapImage.getGraphics();
-        graphics.scale(scale,scale);
+        graphics.scale(scale, scale);
 
-        MapTile[][] map = part.getMap();
-
-        for (int x=0; x < map.length; x++) {
-            for (int y = 0; y < map[0].length; y++) {
-                MapTile tile = map[x][y];
-                if(tile!=null)
-                    graphics.drawImage(tile.getImg(),x*16,y*16,null);
+        Tile[][][] map = part.getMap();
+        int i;
+        //for (int i = 0; i < layerHeight; i++) {
+            for (int x = 0; x < map.length; x++) {
+                for (int y = 0; y < map[0].length; y++) {
+                    i=0;
+                    Tile tile = map[i][x][y];
+                    if (tile != null)
+                        graphics.drawImage(tile.getImg(), x * 16, y * 16, null);
+                }
             }
-        }
+        //}
         return mapImage;
     }
 }

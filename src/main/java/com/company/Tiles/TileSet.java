@@ -29,8 +29,11 @@ public class TileSet {
             map.put(from, to);
         }
 
-
         return map;
+    }
+
+    public static TileSet loadSmallTileSet(String path,  Color from, Color to){
+        TileSet tile = new TileSet(from, to);
     }
 
     public TileSet(String path, Color from, Color to) throws IOException {
@@ -39,6 +42,11 @@ public class TileSet {
 
         BufferedImage tilesImg = ImageIO.read(new File(path));
         imgToTiles(tilesImg);
+    }
+
+    public TileSet( Color from, Color to) {
+        this.from = from;
+        this.to = to;
     }
 
     public void imgToTiles(BufferedImage img){
@@ -52,10 +60,16 @@ public class TileSet {
         }
     }
 
+
+    /*
+    * 0-> from
+    * 1-> to
+    * -1 -> ignore*/
     public Tile[][] paint(int[][] map){
         Tile[][] tMap=new Tile[map.length][map[0].length];
         for (int x = 0; x < map.length; x++) {
             for (int y = 0; y < map[0].length; y++) {
+
                 boolean[][] boolSurr = getBoolSurr(x, y, map, false);
                 int bitTile = get8bitTile(boolSurr);
                 int mappedBitTile= bitIntToInt.get(bitTile);
@@ -93,18 +107,18 @@ public class TileSet {
         surr[2][2]=surr[2][1] && surr[1][2];
         surr[0][2]=surr[0][1] && surr[1][2];
 
-        int a=0;
+        int bitTile=0;
 
-        a+=surr[0][0]?1:0;
-        a+=surr[1][0]?2:0;
-        a+=surr[2][0]?4:0;
-        a+=surr[0][1]?8:0;
-        a+=surr[2][1]?16:0;
-        a+=surr[0][2]?32:0;
-        a+=surr[1][2]?64:0;
-        a+=surr[2][2]?128:0;
+        bitTile+=surr[0][0]?1:0;
+        bitTile+=surr[1][0]?2:0;
+        bitTile+=surr[2][0]?4:0;
+        bitTile+=surr[0][1]?8:0;
+        bitTile+=surr[2][1]?16:0;
+        bitTile+=surr[0][2]?32:0;
+        bitTile+=surr[1][2]?64:0;
+        bitTile+=surr[2][2]?128:0;
 
-        return a;
+        return bitTile;
     }
 
 

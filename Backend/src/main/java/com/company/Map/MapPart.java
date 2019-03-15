@@ -6,8 +6,6 @@ import com.company.Tiles.TileCorner;
 import com.company.Tiles.TileEdge;
 import com.company.Tiles.TileSet;
 import javafx.util.Pair;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.Multigraph;
 
 import java.awt.*;
 import java.io.IOException;

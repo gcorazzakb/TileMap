@@ -3,8 +3,6 @@ package com.company.Map;
 import com.company.Globals;
 import com.company.Tiles.*;
 import javafx.util.Pair;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.Multigraph;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,7 +15,6 @@ import java.util.Map;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 public class GameMap {
-    private static Multigraph<MapTile, TileEdge> map = new Multigraph(DefaultEdge.class);
 
     int layerHeight = 3;
 

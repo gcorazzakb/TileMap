@@ -130,10 +130,10 @@ public class TileSet {
     }
 
     public int get8bitTile(boolean[][] surr) {
-        surr[0][0] = surr[0][1] && surr[1][0];
-        surr[2][0] = surr[1][0] && surr[2][1];
-        surr[2][2] = surr[2][1] && surr[1][2];
-        surr[0][2] = surr[0][1] && surr[1][2];
+        surr[0][0] = surr[0][0] && surr[0][1] && surr[1][0];
+        surr[2][0] = surr[2][0] && surr[1][0] && surr[2][1];
+        surr[2][2] = surr[2][2] && surr[2][1] && surr[1][2];
+        surr[0][2] = surr[0][2] && surr[0][1] && surr[1][2];
 
         int bitTile = 0;
 

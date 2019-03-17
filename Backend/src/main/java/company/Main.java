@@ -8,6 +8,7 @@ import java.awt.*;
 public class Main {
     public static void main(String[] args) {
         final GameMap gameMap = new GameMap();
+
         JFrame frame = new JFrame("Map");
         JPanel panel = new JPanel() {
             @Override

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.web.bind.annotation.*;
+import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
 
@@ -25,10 +26,11 @@ public class TestStuff {
 
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/img", method = RequestMethod.GET, produces = "image/png")
-    public byte[] testSendImg() {
-        BufferedImage img = new BufferedImage(20, 20, BufferedImage.TYPE_INT_ARGB);
-        img.getGraphics().setColor(Color.BLUE);
-        img.getGraphics().drawRect(5,5,5,5);
+    public String testSendImg() {
+        BufferedImage img = new BufferedImage(20, 20, BufferedImage.TYPE_INT_RGB);
+        Graphics g = img.getGraphics();
+        g.setColor(Color.BLUE);
+        g.fillRect(5,5,5,5);
 
         // Create a byte array output stream.
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
@@ -39,7 +41,8 @@ public class TestStuff {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return bao.toByteArray();
+        BASE64Encoder encoder = new BASE64Encoder();
+        return "{\"a\": \""+encoder.encode(bao.toByteArray())+"\" }\n";
     }
 
 }

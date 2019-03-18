@@ -1,0 +1,13 @@
+<p>
+  Type something in the text field and click the Button. CLICK IT!
+</p>
+
+<input [(ngModel)]="input" >
+
+<button (click)="toUpper(input)"> HERE!</button>
+
+<button (click)="getImg()"> Send mi en Img</button>
+
+<br>
+
+<label *ngIf="upper">{{upper}}</label>

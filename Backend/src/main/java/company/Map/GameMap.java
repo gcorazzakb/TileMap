@@ -5,25 +5,45 @@ import company.Tiles.TileSet;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
 
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 public class GameMap {
-
-    private static TileSet grass, dirt, snow, all;
     public static final int layerHeight=5;
     MapPart part;
+    final int seed;
+    public static final ArrayList<TileSet> tileSets= loadTileSets();
 
-    public GameMap() {
-        part = new MapPart(0, 0, 20, 20);
+    private static ArrayList<TileSet> loadTileSets() {
+        ArrayList<TileSet> tileSets = new ArrayList<>();
+
+        try {
+            tileSets.add(TileSet.loadSmallTileSet("./img/ground2/grassWater.png"));
+            tileSets.add(TileSet.loadSmallTileSet("./img/ground2/grassAir.png"));
+            tileSets.add(TileSet.loadSmallTileSet("./img/ground2/snowWater.png"));
+            tileSets.add(TileSet.loadSmallTileSet("./img/ground2/snowAir.png"));
+            tileSets.add(TileSet.loadSmallTileSet("./img/ground2/dirtWater.png"));
+            tileSets.add(TileSet.loadSmallTileSet("./img/ground2/dirtAir.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return tileSets;
     }
 
-    public BufferedImage drawMap(long X, long Y, int width, int height) {
-        int scale = 3;
+    public GameMap(int seed) {
+        part = new MapPart(seed, 0, 80, 80, 100);
+        this.seed = seed;
+    }
+
+    public BufferedImage drawMap() {
+        int scale = 1;
         Tile[][][] map = part.getMap();
 
-        width = map[0].length;
-        height = map[0][0].length;
+        int width = map[0].length;
+        int height = map[0][0].length;
         BufferedImage mapImage = new BufferedImage(width * 16 * scale, height * 16 * scale, TYPE_INT_ARGB);
         Graphics2D graphics = (Graphics2D) mapImage.getGraphics();
         graphics.scale(scale, scale);

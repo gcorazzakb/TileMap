@@ -7,14 +7,14 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        final GameMap gameMap = new GameMap();
+        final GameMap gameMap = new GameMap(1000);
 
         JFrame frame = new JFrame("Map");
         JPanel panel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(gameMap.drawMap(0, 0, 10, 10), 0, 0, null);
+                g.drawImage(gameMap.drawMap(), 0, 0, null);
             }
         };
 

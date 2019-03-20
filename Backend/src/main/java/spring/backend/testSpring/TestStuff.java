@@ -7,6 +7,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicLong;
 
+import company.Map.GameMap;
+import company.Tiles.Tile;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Encoder;
 
@@ -14,9 +16,6 @@ import javax.imageio.ImageIO;
 
 @RestController
 public class TestStuff {
-
-    private static final String template = "Hello, %s!";
-    private final AtomicLong counter = new AtomicLong();
 
     @CrossOrigin(origins = "*")
     @RequestMapping("/greeting")
@@ -26,13 +25,32 @@ public class TestStuff {
 
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/img", method = RequestMethod.GET, produces = "image/png")
-    public String testSendImg() {
-        BufferedImage img = new BufferedImage(20, 20, BufferedImage.TYPE_INT_RGB);
-        Graphics g = img.getGraphics();
-        g.setColor(Color.BLUE);
-        g.fillRect(5,5,5,5);
+    public byte[] testSendImg(@RequestParam(value="seed") String seed) {
+        BufferedImage img = new GameMap(Integer.valueOf(seed)).drawMap();
+        return imgToByteArray(img);
+    }
 
-        // Create a byte array output stream.
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/getTileImg", method = RequestMethod.GET, produces = "image/png")
+    public byte[] getTileImg(@RequestParam(value="tileSetID") String tileSetID, @RequestParam(value="tileID") String tileID) {
+        Tile tile = getTileBy(tileSetID, tileID);
+        return imgToByteArray(tile.getImg());
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "/getTileInfo")
+    public String getTileInfo(@RequestParam(value="tileSetID") String tileSetID, @RequestParam(value="tileID") String tileID) {
+        Tile tile = getTileBy(tileSetID, tileID);
+        return "";
+    }
+
+    private Tile getTileBy(String tileSet, String tile){
+        Integer tileSetID = Integer.valueOf(tileSet);
+        Integer tileID = Integer.valueOf(tile);
+        return GameMap.tileSets.get(tileSetID).getTile(tileID);
+    }
+
+    private byte[] imgToByteArray(BufferedImage img){
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
 
         // Write to output stream
@@ -41,8 +59,7 @@ public class TestStuff {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        BASE64Encoder encoder = new BASE64Encoder();
-        return "{\"a\": \""+encoder.encode(bao.toByteArray())+"\" }\n";
+        return bao.toByteArray();
     }
 
 }

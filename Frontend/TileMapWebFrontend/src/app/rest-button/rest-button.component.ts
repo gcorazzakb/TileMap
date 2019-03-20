@@ -7,6 +7,7 @@ import {RESTService} from "../rest.service";
   styleUrls: ['./rest-button.component.css']
 })
 export class RestButtonComponent implements OnInit {
+  imageToShow: string | ArrayBuffer;
 
   constructor(private rest: RESTService) { }
 
@@ -22,6 +23,21 @@ export class RestButtonComponent implements OnInit {
 
 
   getImg() {
-    this.rest.getImg().subscribe(up => this.upper = JSON.parse(JSON.stringify(up)).a);
+    this.rest.getImg().subscribe(data => {
+      this.createImageFromBlob(data);
+    }, error => {
+      console.log(error);
+    });
+  }
+
+  createImageFromBlob(image: Blob) {
+    let reader = new FileReader();
+    reader.addEventListener("load", () => {
+      this.imageToShow = reader.result;
+    }, false);
+
+    if (image) {
+      reader.readAsDataURL(image);
+    }
   }
 }

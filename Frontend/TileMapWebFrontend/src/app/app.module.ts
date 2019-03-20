@@ -6,11 +6,15 @@ import { AppComponent } from './app.component';
 import { RestButtonComponent } from './rest-button/rest-button.component';
 import { HttpClientModule }    from '@angular/common/http';
 import {FormsModule} from "@angular/forms";
+import { ImageComponentComponent } from './image-component/image-component.component';
+import { ShowTilesetComponent } from './show-tileset/show-tileset.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RestButtonComponent
+    RestButtonComponent,
+    ImageComponentComponent,
+    ShowTilesetComponent
   ],
   imports: [
     BrowserModule,

@@ -3,7 +3,7 @@ package company.Tiles;
 import java.awt.image.BufferedImage;
 
 public class Tile {
-    //private boolean[][] block; //3x3
+    private boolean[][] block; //3x3
     private BufferedImage img;
     private boolean mustHaveBeneath;
     private boolean canHaveAbove;

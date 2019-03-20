@@ -13,7 +13,11 @@ export class RESTService {
     return this.http.get("http://localhost:8080/greeting?name=" + toUpper);
   }
 
-  getImg() : Observable<Object> {
-    return this.http.get("http://localhost:8080/img" );
+  getImg() : Observable<Blob> {
+    return this.http.get("http://localhost:8080/img?seed=1000", { responseType: 'blob' } );
+  }
+
+  getTileSetNames() : Observable<Object> {
+    return this.http.get("http://localhost:8080/getTileSetNames" );
   }
 }

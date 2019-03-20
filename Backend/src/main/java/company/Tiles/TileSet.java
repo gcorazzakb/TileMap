@@ -10,9 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TileSet {
-    final Color from, to;
+    private String name;
 
-    Tile[] tiles = new Tile[48];
+    private Tile[] tiles = new Tile[48];
 
     static Map<Integer, Integer> bitIntToInt = initBitToIntMap();
     static int[] smallMap = initSmallMap();
@@ -47,8 +47,9 @@ public class TileSet {
         return map;
     }
 
-    public static TileSet loadSmallTileSet(String path, Color from, Color to) throws IOException {
-        TileSet tileSet = new TileSet(from, to);
+    public static TileSet loadSmallTileSet(String path) throws IOException {
+        TileSet tileSet = new TileSet();
+        tileSet.name=path;
         BufferedImage tilesImg = ImageIO.read(new File(path));
         for (int x = 0; x < 6; x++) {
             for (int y = 0; y < 3; y++) {
@@ -59,17 +60,13 @@ public class TileSet {
         return tileSet;
     }
 
-    public TileSet(String path, Color from, Color to) throws IOException {
-        this.from = from;
-        this.to = to;
-
-        BufferedImage tilesImg = ImageIO.read(new File(path));
-        imgToTiles(tilesImg);
+    public TileSet() {
     }
 
-    public TileSet(Color from, Color to) {
-        this.from = from;
-        this.to = to;
+    public TileSet(String path) throws IOException {
+        name=path;
+        BufferedImage tilesImg = ImageIO.read(new File(path));
+        imgToTiles(tilesImg);
     }
 
     public void imgToTiles(BufferedImage img) {
@@ -92,18 +89,42 @@ public class TileSet {
         Tile[][] tMap = new Tile[map.length][map[0].length];
         for (int x = 0; x < map.length; x++) {
             for (int y = 0; y < map[0].length; y++) {
-                if (map[x][y] == 1) {
-                    boolean[][] boolSurr = getBoolSurr(x, y, map, true);
-                    int bitTile = get8bitTile(boolSurr);
-                    int mappedBitTile = bitIntToInt.get(bitTile);
-                    tMap[x][y] = tiles[mappedBitTile];
-                } else if (map[x][y] == 0) {
-                    tMap[x][y] = tiles[0];
-                }
+                paintUpdateMap(map, tMap, x, y);
             }
         }
         return tMap;
     }
+
+    private void paintUpdateMap(int[][] map, Tile[][] tMap, int x, int y) {
+        if(!(x>=0 && x<map.length)){
+            return;
+        }
+        if(!(y>=0 && y<map[0].length)){
+            return;
+        }
+        if (map[x][y] == 1) {
+            boolean[][] boolSurr = getBoolSurr(x, y, map, true);
+            int bitTile = get8bitTile(boolSurr);
+            int mappedBitTile = bitIntToInt.get(bitTile);
+
+            if(tiles[mappedBitTile]==null){
+                map[x][y]=0;
+
+                for (int xOff = -1; xOff < 2; xOff++) {
+                    for (int yOff = -1; yOff < 2; yOff++) {
+                        paintUpdateMap(map, tMap,x+xOff,y+yOff);
+                    }
+                }
+
+            }else{
+                tMap[x][y] = tiles[mappedBitTile];
+            }
+
+        } else if (map[x][y] == 0) {
+            tMap[x][y] = tiles[0];
+        }
+    }
+
 
     public boolean[][] getBoolSurr(int X, int Y, int[][] map, boolean b) {
         boolean[][] surr = new boolean[3][3];
@@ -119,7 +140,7 @@ public class TileSet {
         if (x < 0 || y < 0) {
             return b;
         }
-        if (x >= map.length || y >= map.length) {
+        if (x >= map.length || y >= map[0].length) {
             return b;
         }
         if (map[x][y] == -1) {
@@ -147,6 +168,13 @@ public class TileSet {
         bitTile += surr[2][2] ? 128 : 0;
 
         return bitTile;
+    }
+
+    public Tile getTile(int tile){
+        if(tile>=0 && tile<48){
+            return tiles[tile];
+        }
+        return null;
     }
 
 

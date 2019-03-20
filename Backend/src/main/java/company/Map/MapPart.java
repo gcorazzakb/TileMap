@@ -11,37 +11,33 @@ import static company.Map.GameMap.layerHeight;
 
 public class MapPart {
 
+    public final int SEED ;
     private static final int LAYERTOPTHREASH = 1;
-    final int X, Y, width, height;
+    private final int X, Y, width, height;
 
     private final float[][] heightMap;
     private final Tile[][][] map;
     private static final float threashold = 0.5f;
     private Color trans = Color.magenta, alpha = Color.BLACK, flat = Color.green;
 
-    private TileSet grassWater, grassAir;
+    private TileSet grassWater=GameMap.tileSets.get(0);
+    private TileSet grassAir=GameMap.tileSets.get(1);
 
-    {
-        try {
-            grassWater = TileSet.loadSmallTileSet("./img/ground2/grassWater.png", Color.BLUE, Color.green);
-            grassAir = TileSet.loadSmallTileSet("./img/ground2/grassAir.png", Color.BLACK, Color.green);
+    private TileSet snowWater=GameMap.tileSets.get(2);
+    private TileSet snowAir=GameMap.tileSets.get(3);
 
-            //grass = new TileSet("./img/ground2/grass2.png", Color.BLACK,Color.green);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private TileSet dirtWater=GameMap.tileSets.get(4);
+    private TileSet dirtAir=GameMap.tileSets.get(5);
 
-    public MapPart(int x, int y, int width, int height) {
+
+    public MapPart(int x, int y, int width, int height, int seed) {
+        SEED = seed;
         X = x;
         Y = y;
         this.width = width;
         this.height = height;
-
         heightMap = genHeightMap(new float[width][height]);
-
         map = generateMap(heightMap);
-
     }
 
     public Tile[][][] getMap() {
@@ -63,17 +59,21 @@ public class MapPart {
 
         if (l == 0 || l == 1) {
             return grassWater.paint(layer);
-        } else {
+        }else if(l == 3){
+            return dirtAir.paint(layer);
+        } else if(l>3) {
+            return snowAir.paint(layer);
+        }else{
             return grassAir.paint(layer);
         }
     }
 
 
     float[][] genHeightMap(float[][] heightMap) {
-        PerlinNoise perlinNoise = new PerlinNoise(10, 10,1200);
+        PerlinNoise perlinNoise = new PerlinNoise(10, 10,SEED);
         for (int x = 0; x < heightMap.length; x++) {
             for (int y = 0; y < heightMap[0].length; y++) {
-                heightMap[x][y]=perlinNoise.getValue(x, y)*layerHeight;
+                heightMap[x][y]=perlinNoise.getValue(this.X+x, this.Y+y)*layerHeight;
             }
         }
         return heightMap;

@@ -12,6 +12,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
+import spring.backend.testSpring.TileSetRepository;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -26,7 +27,11 @@ public class BackendApplication implements CommandLineRunner {
     private TileRepository tileRepository;
 
     @Autowired
+    private TileSetRepository tileSetRepository;
+
+    @Autowired
     private ApplicationContext appContext;
+
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -56,7 +61,7 @@ public class BackendApplication implements CommandLineRunner {
     }
 
     private void insertTileSet(TileSet tileSet) {
-        int[] foreignIDs = new int[48];
+        Integer[] foreignIDs = new Integer[48];
         for (int i = 0; i < 48; i++) {
             Tile tile = tileSet.getTile(i);
             if (tile != null) {
@@ -69,6 +74,7 @@ public class BackendApplication implements CommandLineRunner {
                 }
             }
         }
+        tileSetRepository.addTileSet(foreignIDs);
 
     }
 

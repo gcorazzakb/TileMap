@@ -6,4 +6,7 @@ CREATE TABLE TILE(
   img bytea,
   block integer[3][3]
 );
-CREATE TABLE TILESET(id integer PRIMARY KEY, tiles integer[48]);
+CREATE TABLE TILESET(
+  id SERIAL PRIMARY KEY,
+   tiles integer[48]
+);

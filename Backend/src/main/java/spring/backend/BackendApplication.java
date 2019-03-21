@@ -28,7 +28,10 @@ public class BackendApplication implements CommandLineRunner {
     @Autowired
     private ApplicationContext appContext;
 
-    boolean loadDB=true;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    boolean loadDB = true;
 
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
@@ -36,28 +39,29 @@ public class BackendApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if(!loadDB){
+        //jdbcTemplate.execute("INSERT INTO Test VALUES ('Gian');");
+        if (!loadDB)
             return;
-        }
-        DataSource ds = (DataSource)appContext.getBean("dataSource");
+
+        DataSource ds = (DataSource) appContext.getBean("dataSource");
         Connection c = ds.getConnection();
         ScriptUtils.executeSqlScript(c, new EncodedResource(new ClassPathResource("./createDB.sql"), StandardCharsets.UTF_8));
 
         GameMap gameMap = new GameMap(0);
-        ArrayList<TileSet> tileSets=gameMap.tileSets;
+        ArrayList<TileSet> tileSets = gameMap.tileSets;
         for (int i = 0; i < tileSets.size(); i++) {
             TileSet tileSet = tileSets.get(i);
             insertTileSet(tileSet);
         }
     }
 
-    private void insertTileSet(TileSet tileSet){
-        int[] foreignIDs= new int[48];
+    private void insertTileSet(TileSet tileSet) {
+        int[] foreignIDs = new int[48];
         for (int i = 0; i < 48; i++) {
             Tile tile = tileSet.getTile(i);
-            if (tile!=null) {
+            if (tile != null) {
                 try {
-                    foreignIDs[i]= tileRepository.insertTile(tile);
+                    foreignIDs[i] = tileRepository.insertTile(tile);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (SQLException e) {

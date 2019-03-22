@@ -7,6 +7,7 @@ public class Tile {
     private BufferedImage img;
     private boolean mustHaveBeneath;
     private boolean canHaveAbove;
+    final int id;
 
     private boolean canSetOnTop(Tile down, Tile up) {
         if (up.mustHaveBeneath) {
@@ -16,16 +17,11 @@ public class Tile {
         }
     }
 
-    public Tile(BufferedImage img) {
+    public Tile(BufferedImage img, int id) {
         this.img = img;
         /*height=new byte[3][3];
         block=new boolean[3][3];*/
-    }
-
-    public Tile(Tile cTile) {
-        if (cTile == null)
-            return;
-        img = cTile.img;
+        this.id = id;
     }
 
     public BufferedImage getImg() {

@@ -3,7 +3,6 @@ package company.Tiles;
 import company.Util;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.HashMap;
@@ -54,13 +53,21 @@ public class TileSet {
         for (int x = 0; x < 6; x++) {
             for (int y = 0; y < 3; y++) {
                 BufferedImage tileImg = Util.img16(tilesImg, x, y);
-                tileSet.tiles[smallMap[x + y * 6]] = new Tile(tileImg);
+                tileSet.tiles[smallMap[x + y * 6]] = new Tile(tileImg, getTileID());
             }
         }
         return tileSet;
     }
 
+    private static int getTileID() {
+        return 0;
+    }
+
     public TileSet() {
+    }
+
+    public TileSet(Tile[] tiles) {
+        this.tiles=tiles;
     }
 
     public TileSet(String path) throws IOException {
@@ -74,7 +81,7 @@ public class TileSet {
             for (int y = 0; y < 6; y++) {
                 BufferedImage tileImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
                 tileImg.getGraphics().drawImage(img, x * -16, y * -16, null);
-                Tile tile = new Tile(tileImg);
+                Tile tile = new Tile(tileImg, getTileID());
                 tiles[x + y * 8] = tile;
             }
         }

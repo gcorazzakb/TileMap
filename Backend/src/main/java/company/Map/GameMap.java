@@ -2,6 +2,10 @@ package company.Map;
 
 import company.Tiles.Tile;
 import company.Tiles.TileSet;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
+import spring.backend.testSpring.TileSetRepository;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -10,13 +14,22 @@ import java.util.ArrayList;
 
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
+@Component
 public class GameMap {
     public static final int layerHeight=5;
     MapPart part;
     final int seed;
-    public static final ArrayList<TileSet> tileSets= loadTileSets();
 
-    private static ArrayList<TileSet> loadTileSets() {
+    //public static final ArrayList<TileSet> tileSets= loadTileSetsPerImg();
+    public static ArrayList<TileSet> tileSets;
+
+    private static ArrayList<TileSet> loadTileSetsPerDB() {
+        ArrayList<TileSet> tileSets = new ArrayList<>();
+
+        return tileSets;
+    }
+
+    private static ArrayList<TileSet> loadTileSetsPerImg() {
         ArrayList<TileSet> tileSets = new ArrayList<>();
 
         try {

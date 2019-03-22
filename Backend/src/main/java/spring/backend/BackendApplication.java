@@ -20,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @SpringBootApplication
 public class BackendApplication implements CommandLineRunner {
@@ -32,11 +33,7 @@ public class BackendApplication implements CommandLineRunner {
     @Autowired
     private ApplicationContext appContext;
 
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    boolean loadDB = true;
+    boolean loadDB = false;
 
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
@@ -44,7 +41,9 @@ public class BackendApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        //jdbcTemplate.execute("INSERT INTO Test VALUES ('Gian');");
+        ArrayList<TileSet> allTileSets = tileSetRepository.getAllTileSets();
+        GameMap.tileSets=allTileSets;
+
         if (!loadDB)
             return;
 
@@ -69,13 +68,10 @@ public class BackendApplication implements CommandLineRunner {
                     foreignIDs[i] = tileRepository.insertTile(tile);
                 } catch (IOException e) {
                     e.printStackTrace();
-                } catch (SQLException e) {
-                    e.printStackTrace();
                 }
             }
         }
         tileSetRepository.addTileSet(foreignIDs);
-
     }
 
 }

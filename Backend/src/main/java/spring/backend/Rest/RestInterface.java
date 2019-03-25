@@ -1,27 +1,23 @@
-package spring.backend.testSpring;
+package spring.backend.Rest;
 
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicLong;
 
 import company.Map.GameMap;
 import company.Tiles.Tile;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import sun.misc.BASE64Encoder;
+import spring.backend.Models.TileJSONModel;
+import spring.backend.Repositorys.TileRepository;
 
 import javax.imageio.ImageIO;
 
 @RestController
-public class TestStuff {
-
-    @CrossOrigin(origins = "*")
-    @RequestMapping("/greeting")
-    public TestPOJO greeting(@RequestParam(value="name", defaultValue="World") String name) {
-        return new TestPOJO(name.toUpperCase());
-    }
+public class RestInterface {
+    @Autowired
+    TileRepository tileRepository;
 
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/img", method = RequestMethod.GET, produces = "image/png")
@@ -32,9 +28,8 @@ public class TestStuff {
 
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/getTileImg", method = RequestMethod.GET, produces = "image/png")
-    public byte[] getTileImg(@RequestParam(value="tileSetID") String tileSetID, @RequestParam(value="tileID") String tileID) {
-        Tile tile = getTileBy(tileSetID, tileID);
-        return imgToByteArray(tile.getImg());
+    public byte[] getTileImg( @RequestParam(value="tileID") String tileID) {
+        return imgToByteArray(tileRepository.loadTile(Integer.valueOf(tileID)).getImg());
     }
 
     @CrossOrigin(origins = "*")
@@ -43,6 +38,27 @@ public class TestStuff {
         Tile tile = getTileBy(tileSetID, tileID);
         return "";
     }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping(value = "/getMapArray")
+    public TileJSONModel[][][] getMap(@RequestParam(value="seed") String seed) {
+        GameMap gameMap = new GameMap(Integer.valueOf(seed));
+        Tile[][][] mapPart = gameMap.getMapPart();
+        TileJSONModel[][][] mapModel = new TileJSONModel[mapPart.length][mapPart[0].length][mapPart[0][0].length];
+        for (int x = 0; x < mapPart.length; x++) {
+            for (int y = 0; y < mapPart[0].length; y++) {
+                for (int z = 0; z < mapPart[0][0].length; z++) {
+                    if (mapPart[x][y][z]!=null) {
+                        TileJSONModel tileJSONModel = new TileJSONModel(mapPart[x][y][z]);
+                        mapModel[x][y][z] = tileJSONModel;
+                    }
+                }
+            }
+        }
+        return mapModel;
+    }
+
+
 
     private Tile getTileBy(String tileSet, String tile){
         Integer tileSetID = Integer.valueOf(tileSet);

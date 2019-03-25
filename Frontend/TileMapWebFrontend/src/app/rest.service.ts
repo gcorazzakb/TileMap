@@ -20,4 +20,12 @@ export class RESTService {
   getTileSetNames() : Observable<Object> {
     return this.http.get("http://localhost:8080/getTileSetNames" );
   }
+
+  getMapArray(seed): Observable<string>{
+    return this.http.get<string>("http://localhost:8080/getMapArray?seed="+seed );
+  }
+
+  getTileImg(tileID: number) : Observable<Blob>{
+    return this.http.get<Blob>("http://localhost:8080/getTileImg?tileID=" + tileID );
+  }
 }

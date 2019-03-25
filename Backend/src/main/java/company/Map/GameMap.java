@@ -2,10 +2,7 @@ package company.Map;
 
 import company.Tiles.Tile;
 import company.Tiles.TileSet;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import spring.backend.testSpring.TileSetRepository;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -72,5 +69,9 @@ public class GameMap {
             }
         }
         return mapImage;
+    }
+
+    public Tile[][][] getMapPart() {
+        return part.getMap();
     }
 }

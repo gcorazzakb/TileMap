@@ -1,4 +1,4 @@
-package spring.backend.testSpring;
+package spring.backend.Repositorys;
 
 import company.Tiles.Tile;
 import company.Tiles.TileSet;
@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
-import spring.backend.TileRepository;
 
 import java.sql.Array;
 import java.sql.Connection;

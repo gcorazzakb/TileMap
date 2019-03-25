@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {RESTService} from "../rest.service";
-
+import {Util} from "../Util";
 @Component({
   selector: 'app-rest-button',
   templateUrl: './rest-button.component.html',
@@ -24,20 +24,12 @@ export class RestButtonComponent implements OnInit {
 
   getImg() {
     this.rest.getImg().subscribe(data => {
-      this.createImageFromBlob(data);
+      let fileReader = Util.createImageFromBlob(data, ()=>{
+        this.imageToShow=fileReader.result;
+      });
     }, error => {
       console.log(error);
     });
   }
 
-  createImageFromBlob(image: Blob) {
-    let reader = new FileReader();
-    reader.addEventListener("load", () => {
-      this.imageToShow = reader.result;
-    }, false);
-
-    if (image) {
-      reader.readAsDataURL(image);
-    }
-  }
 }

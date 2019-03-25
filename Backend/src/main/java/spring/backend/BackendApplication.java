@@ -10,17 +10,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.support.EncodedResource;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
-import spring.backend.testSpring.TileSetRepository;
+import spring.backend.Repositorys.TileRepository;
+import spring.backend.Repositorys.TileSetRepository;
 
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 @SpringBootApplication
 public class BackendApplication implements CommandLineRunner {

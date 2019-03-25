@@ -8,13 +8,15 @@ import { HttpClientModule }    from '@angular/common/http';
 import {FormsModule} from "@angular/forms";
 import { ImageComponentComponent } from './image-component/image-component.component';
 import { ShowTilesetComponent } from './show-tileset/show-tileset.component';
+import { MapArrayComponent } from './map-array/map-array.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RestButtonComponent,
     ImageComponentComponent,
-    ShowTilesetComponent
+    ShowTilesetComponent,
+    MapArrayComponent
   ],
   imports: [
     BrowserModule,

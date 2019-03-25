@@ -1,0 +1,10 @@
+<p>
+  map-array works!
+</p>
+
+<input type="number" [defaultValue]="1000" [(ngModel)]="seed">
+<button (click)="getMapArray( seed )">Enter Seed and get MapArray</button>
+
+<img *ngIf="mapImgs" src="{{mapImgs[0][0][3]}}">
+<label>{{mapArray}}</label>
+

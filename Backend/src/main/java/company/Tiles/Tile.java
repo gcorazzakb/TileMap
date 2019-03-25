@@ -28,4 +28,7 @@ public class Tile {
         return img;
     }
 
+    public int getId() {
+        return id;
+    }
 }

@@ -9,6 +9,7 @@ import {FormsModule} from "@angular/forms";
 import { ImageComponentComponent } from './image-component/image-component.component';
 import { ShowTilesetComponent } from './show-tileset/show-tileset.component';
 import { MapArrayComponent } from './map-array/map-array.component';
+import { LayeredTileComponent } from './layered-tile/layered-tile.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { MapArrayComponent } from './map-array/map-array.component';
     RestButtonComponent,
     ImageComponentComponent,
     ShowTilesetComponent,
-    MapArrayComponent
+    MapArrayComponent,
+    LayeredTileComponent
   ],
   imports: [
     BrowserModule,

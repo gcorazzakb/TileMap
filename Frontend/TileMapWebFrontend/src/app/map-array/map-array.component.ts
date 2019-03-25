@@ -9,7 +9,7 @@ import {Util} from "../Util";
 })
 export class MapArrayComponent implements OnInit {
   private mapArray: Object;
-  private mapImgs: string | ArrayBuffer;
+
   seed: number;
 
   constructor(private rest: RESTService ) {}
@@ -29,7 +29,7 @@ export class MapArrayComponent implements OnInit {
   getImg(x, y, z) {
     this.rest.getTileImg(this.mapArray[x][y][z].id).subscribe(data => {
       let fileReader = Util.createImageFromBlob(data, ()=>{
-        this.mapImgs[x][y][z]=fileReader.result;
+        this.mapArray[x][y][z].img=fileReader.result;
       });
     }, error => {
       console.log(error);

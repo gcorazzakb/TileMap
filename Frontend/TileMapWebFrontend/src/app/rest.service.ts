@@ -26,6 +26,6 @@ export class RESTService {
   }
 
   getTileImg(tileID: number) : Observable<Blob>{
-    return this.http.get<Blob>("http://localhost:8080/getTileImg?tileID=" + tileID );
+    return this.http.get("http://localhost:8080/getTileImg?tileID=" + tileID, { responseType: 'blob' } );
   }
 }

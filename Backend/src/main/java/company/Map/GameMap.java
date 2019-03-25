@@ -22,7 +22,6 @@ public class GameMap {
 
     private static ArrayList<TileSet> loadTileSetsPerDB() {
         ArrayList<TileSet> tileSets = new ArrayList<>();
-
         return tileSets;
     }
 

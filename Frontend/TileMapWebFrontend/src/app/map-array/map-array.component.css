@@ -1,0 +1,7 @@
+.tile {
+  float: left;
+  width: 14px;
+  height: 14px;
+  border:1px solid rebeccapurple;
+  background-color: brown;
+}

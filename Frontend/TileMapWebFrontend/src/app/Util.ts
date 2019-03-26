@@ -1,3 +1,5 @@
+import {Observable} from "rxjs";
+
 export class Util {
 
   static createImageFromBlob(image: Blob, listnr)  {

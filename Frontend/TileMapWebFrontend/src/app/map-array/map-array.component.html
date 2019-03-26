@@ -5,19 +5,7 @@
 <input type="number" [defaultValue]="1000" [(ngModel)]="seed">
 <button (click)="getMapArray( seed )">Enter Seed and get MapArray</button>
 
-
-<div *ngIf="mapArray">
-  <div *ngFor="let mapX of mapArray[0]; index as x;" [style.width.px]="mapArray[0].length*16" >
-    <div *ngFor="let map of mapX; index as y;" class="tile" >
-      <div style="position: relative">
-        <div *ngFor="let layer of mapArray; index as l">
-          <img *ngIf="mapArray[l][x][y]" src="{{mapArray[l][x][y].img}}" class="layeredTile">
-        </div>
-      </div>
-    </div>
-    <!--<app-layered-tile *ngFor="let mapY of mapX; index as y" ></app-layered-tile> &lt;!&ndash;[map]="mapArray"   [Y]="y" [X]="x" &ndash;&gt;-->
-  </div>
-</div>
+<canvas id="mapCanvas" style="display: none"></canvas>
 
 <img *ngIf="mapArray" src="{{mapArray[0][0][3].img}}">
 <label>{{mapArray}}</label>

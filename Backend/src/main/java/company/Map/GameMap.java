@@ -43,7 +43,7 @@ public class GameMap {
     }
 
     public GameMap(int seed) {
-        part = new MapPart(seed, 0, 80, 80, 100);
+        part = new MapPart(seed, 0, 60, 80, 100);
         this.seed = seed;
     }
 

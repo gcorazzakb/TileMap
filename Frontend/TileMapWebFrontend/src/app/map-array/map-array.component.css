@@ -1,18 +1,56 @@
+
+:root {
+  --scaleRoot: 200px;
+}
+
 .tile {
   float: left;
   width: 14px;
   height: 14px;
-  border:1px solid rebeccapurple;
-  background-color: brown;
+  border: 1px solid black;
+  opacity: 0.2;
+}
+
+.tile:hover{
+  background-color: blue;
 }
 
 
-.layeredTile{
+.posAbsolut0{
   position: absolute;
-  width: 16px;
-  height: 16px;
   left: 0;
   top: 0;
-  background-color: aqua;
-  opacity: 0.5;
+}
+
+.pixelated {
+  -ms-interpolation-mode: nearest-neighbor; /*!// IE 7+ (non-standard property)*/
+  image-rendering: -webkit-crisp-edges; /*!/ Safari 7+*/
+  image-rendering: -moz-crisp-edges; /* // Firefox 3.6+*/
+  image-rendering: -o-crisp-edges; /*!/ Opera 12*/
+  image-rendering: pixelated; /* // Chrome 41+ and Opera 26+*/
+}
+
+.mapImage {
+}
+
+.mapImgWrapper {
+  position: relative;
+  width: 70%;
+  height: 600px;
+  border: 10px solid black;
+  border-radius: 10px;
+  overflow: scroll;
+  resize: both;
+}
+
+.scaled1{
+  transform: scale(1);
+}
+
+.scaled2{
+  transform: scale(2);
+}
+
+.scaled3{
+  transform: scale(3);
 }

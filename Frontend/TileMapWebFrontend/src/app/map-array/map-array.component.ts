@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {RESTService} from "../rest.service";
 import {Util} from "../Util";
+import {element} from "protractor";
+
 
 @Component({
   selector: 'app-map-array',
@@ -10,50 +12,91 @@ import {Util} from "../Util";
 export class MapArrayComponent implements OnInit {
   private mapArray: any[][][];
 
-  seed: number;
+  mapWidth: number;
+  mapHeight: number;
 
-  constructor(private rest: RESTService ) {}
+  seed: number;
+  zoom = 2;
+
+  mapImg;
+
+
+  constructor(private rest: RESTService) {
+  }
 
   ngOnInit() {
   }
 
-  getMapArray(seed){
-    this.rest.getMapArray(seed).subscribe(ma =>{
+  loadMap(seed) {
+    this.seed = seed;
+    this.getMapImg();
+    this.getMapArray();
+  }
+
+  getMapArray() {
+    this.rest.getMapArray(this.seed).subscribe(ma => {
       console.log(ma);
-      this.mapArray =<any> ma; //is it good? I mean.. no how to make it better?
-      this.getImg(0,0,3);
+      this.mapArray = <any>ma; //is it good? I mean.. no how to make it better?
+      this.mapWidth= this.mapArray[0].length;
+      this.mapHeight= this.mapArray[0][0].length;
+      //this.getImg(0,0,3);
     });
+  }
+
+  getMapImg() {
+    this.rest.getMapImg(this.seed).subscribe(data => {
+      let fileReader = Util.createImageFromBlob(data, () => {
+        this.mapImg = fileReader.result;
+      });
+    }, error => {
+      console.log(error);
+    })
   }
 
   getImg(l, x, y) {
     this.rest.getTileImg(this.mapArray[l][x][y].id).subscribe(data => {
-      let fileReader = Util.createImageFromBlob(data, ()=>{
-        this.mapArray[l][x][y].img=fileReader.result;
+      let fileReader = Util.createImageFromBlob(data, () => {
+        this.mapArray[l][x][y].img = fileReader.result;
       });
     }, error => {
       console.log(error);
     });
   }
 
-  private drawMap() {
-    var canvas = <HTMLCanvasElement>document.getElementById("mapCanvas");
-    canvas.width=this.mapArray[0].length*16;
-    canvas.height=this.mapArray[0][0].length*16;
-    canvas.style.display= "block";
+  clickOnTile(event: MouseEvent) {
+    let id= +(<Element>event.target).id;
+    let x = id % this.mapWidth;
+    let y = Math.floor(id / this.mapWidth);
 
-    let g = canvas.getContext("2d");
-    for (let l=0; l<this.mapArray.length;l++){
-      for (let x=0; x<this.mapArray[0].length;x++){
-        for (let y=0; y<this.mapArray[0][0].length;y++){
-          if (this.mapArray[l][x][y]!=null){
-            /*this.getImg(this.mapArray[l][x][y].id,
-              (img) => {console.log(img)} // g.drawImage(img, x*16, y *16 )
-            );*/
-            this.rest.getTileImg(14).subscribe(data => console.log(data));
-          }
-        }
-      }
+    console.log(x+"!"+y);
+
+  }
+
+  zoomIn() {
+    this.zoom++;
+    if (this.zoom>2){
+      this.zoom=2;
     }
+    this.setZoom();
+  }
 
+  zoomOut() {
+    this.zoom--;
+    if (this.zoom<0){
+      this.zoom=0;
+    }
+    this.setZoom();
+  }
+
+  setZoom(){
+    let element = document.getElementById("zoomDiv");
+    element.classList.forEach(value => element.classList.remove(value));
+    if (this.zoom==0){
+      element.classList.add("scaled1");
+    }else if(this.zoom==1){
+      element.classList.add("scaled2");
+    }else{
+      element.classList.add("scaled3");
+    }
   }
 }

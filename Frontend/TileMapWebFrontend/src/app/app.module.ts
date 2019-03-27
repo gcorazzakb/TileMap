@@ -10,6 +10,8 @@ import { ImageComponentComponent } from './image-component/image-component.compo
 import { ShowTilesetComponent } from './show-tileset/show-tileset.component';
 import { MapArrayComponent } from './map-array/map-array.component';
 import { LayeredTileComponent } from './layered-tile/layered-tile.component';
+import { DragDropModule } from "@angular/cdk/drag-drop";
+import { ShowMapComponent } from './show-map/show-map.component';
 
 @NgModule({
   declarations: [
@@ -18,13 +20,15 @@ import { LayeredTileComponent } from './layered-tile/layered-tile.component';
     ImageComponentComponent,
     ShowTilesetComponent,
     MapArrayComponent,
-    LayeredTileComponent
+    LayeredTileComponent,
+    ShowMapComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    DragDropModule
   ],
   providers: [],
   bootstrap: [AppComponent]

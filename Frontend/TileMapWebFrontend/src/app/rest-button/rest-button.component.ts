@@ -23,7 +23,7 @@ export class RestButtonComponent implements OnInit {
 
 
   getImg() {
-    this.rest.getImg().subscribe(data => {
+    this.rest.getMapImg().subscribe(data => {
       let fileReader = Util.createImageFromBlob(data, ()=>{
         this.imageToShow=fileReader.result;
       });

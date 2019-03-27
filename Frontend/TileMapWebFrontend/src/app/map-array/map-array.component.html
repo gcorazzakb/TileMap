@@ -3,11 +3,23 @@
 </p>
 
 <input type="number" [defaultValue]="1000" [(ngModel)]="seed">
-<button (click)="getMapArray( seed )">Enter Seed and get MapArray</button>
+<button (click)="loadMap( seed )">Enter Seed and get MapArray</button>
 
-<canvas id="mapCanvas" style="display: none"></canvas>
+<button (click)="zoomIn()"><h1>   +   </h1></button>
+<button (click)="zoomOut()"><h1>   -   </h1></button>
 
-<img *ngIf="mapArray" src="{{mapArray[0][0][3].img}}">
-<label>{{mapArray}}</label>
-
-<div class="tile"></div>
+<div class="mapImgWrapper">
+  <div cdkDrag>
+    <div id="zoomDiv" class="scaled2" >
+      <img *ngIf="mapImg" class="posAbsolut0 pixelated mapImage" src="{{mapImg}}">
+      <div *ngIf="mapArray" class="posAbsolut0">
+        <div *ngFor="let mapX of mapArray[0]; index as x;" [style.width.px]="mapArray[0].length*16">
+          <div id="{{x*mapArray[0][0].length+y}}"
+               *ngFor="let map of mapX; index as y;"
+               class="tile"
+               (click)="clickOnTile($event)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

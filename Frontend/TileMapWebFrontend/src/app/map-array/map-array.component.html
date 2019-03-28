@@ -1,25 +1,40 @@
-<p>
-  map-array works!
-</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Show Map</mat-card-title>
+  </mat-card-header>
 
-<input type="number" [defaultValue]="1000" [(ngModel)]="seed">
-<button (click)="loadMap( seed )">Enter Seed and get MapArray</button>
+  <mat-form-field>
+    <input matInput type="number" placeholder="Seed" value="2333" [(ngModel)]="seed">
+  </mat-form-field>
+  <button mat-raised-button (click)="loadMap( seed )">Enter Seed and get MapArray</button>
+  <mat-divider [vertical]="true" [inset]="true"></mat-divider>
+  <mat-card>
 
-<button (click)="zoomIn()"><h1>   +   </h1></button>
-<button (click)="zoomOut()"><h1>   -   </h1></button>
-
-<div class="mapImgWrapper">
-  <div cdkDrag>
-    <div id="zoomDiv" class="scaled2" >
-      <img *ngIf="mapImg" class="posAbsolut0 pixelated mapImage" src="{{mapImg}}">
-      <div *ngIf="mapArray" class="posAbsolut0">
-        <div *ngFor="let mapX of mapArray[0]; index as x;" [style.width.px]="mapArray[0].length*16">
-          <div id="{{x*mapArray[0][0].length+y}}"
-               *ngFor="let map of mapX; index as y;"
-               class="tile"
-               (click)="clickOnTile($event)"></div>
-        </div>
+    <div style="padding-bottom:20px; overflow:hidden; resize: both">
+      <div style="position: absolute; z-index:1; background-color: #f8f8f8; display: inline-block; border-radius: 5px;">
+        <button mat-stroked-button (click)="zoomIn()"><h1>+</h1></button>
       </div>
+      <div class="mapImgWrapper" >
+        <div cdkDrag>
+          <div id="zoomDiv" class="scaled2" style="position: relative;">
+            <img *ngIf="mapImg" class="posAbsolut0 pixelated mapImage" src="{{mapImg}}">
+            <div *ngIf="mapArray" class="posAbsolut0">
+              <div *ngFor="let mapX of mapArray[0]; index as x;" [style.width.px]="mapArray[0].length*16">
+                <div id="{{x*mapArray[0][0].length+y}}"
+                     *ngFor="let map of mapX; index as y;"
+                     class="tile"
+                     (click)="clickOnTile($event)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+       </div>
+
+      <!--<button mat-stroked-button style="position: absolute; top: 10px; left: 10px;"(click)="zoomOut()"><h1>-</h1></button>-->
+
     </div>
-  </div>
-</div>
+
+  </mat-card>
+</mat-card>

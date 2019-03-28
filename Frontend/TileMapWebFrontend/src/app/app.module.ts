@@ -12,6 +12,14 @@ import { MapArrayComponent } from './map-array/map-array.component';
 import { LayeredTileComponent } from './layered-tile/layered-tile.component';
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { ShowMapComponent } from './show-map/show-map.component';
+import { ShowTileComponent } from './show-tile/show-tile.component';
+import { ShowTilComponent } from './show-til/show-til.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {MatListModule} from '@angular/material/list';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -21,14 +29,22 @@ import { ShowMapComponent } from './show-map/show-map.component';
     ShowTilesetComponent,
     MapArrayComponent,
     LayeredTileComponent,
-    ShowMapComponent
+    ShowMapComponent,
+    ShowTileComponent,
+    ShowTilComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    DragDropModule
+    DragDropModule,
+    MatSidenavModule,
+    BrowserAnimationsModule,
+    MatListModule,
+    MatCardModule,
+    MatButtonModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

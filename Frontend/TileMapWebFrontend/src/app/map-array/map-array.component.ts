@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {RESTService} from "../rest.service";
 import {Util} from "../Util";
 import {element} from "protractor";
+import {ɵSharedStylesHost} from "@angular/platform-browser";
 
 
 @Component({
@@ -19,6 +20,8 @@ export class MapArrayComponent implements OnInit {
   zoom = 2;
 
   mapImg;
+
+  showTile;
 
 
   constructor(private rest: RESTService) {
@@ -69,7 +72,8 @@ export class MapArrayComponent implements OnInit {
     let y = Math.floor(id / this.mapWidth);
 
     console.log(x+"!"+y);
-
+    this.showTile.x=x;
+    this.showTile.y=y;
   }
 
   zoomIn() {

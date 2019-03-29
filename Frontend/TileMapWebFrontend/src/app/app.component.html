@@ -2,26 +2,23 @@
   <h1 style="text-align: center; font-size: 50px;">Welcome to my TileMap Generator!</h1>
 </div>
 
-<div>
-  <mat-card-content>
-    <div style="float: left">
-      <ul>
-        <li><a href="showTile">Tile</a></li>
-        <li><a href="showTileset">Tileset</a></li>
-        <li><a href="showMap">Map</a></li>
-      </ul>
-      <mat-list>
-        <mat-nav-list>
-          <li><a href="showTile">Tile</a></li>
-          <mat-divider></mat-divider>
-          <li><a href="showTileset">Tileset</a></li>
-          <mat-divider></mat-divider>
-          <li><a href="showMap">Map</a></li>
-        </mat-nav-list>
-      </mat-list>
+<div class="mat-app-background">
+  <mat-card style="float: left;margin-right: 20px;">
+    <mat-card-title>Nav</mat-card-title>
+    <mat-card-content>
+        <mat-list>
+          <mat-nav-list>
+            <a mat-list-item href="showTile">Tile</a>
+            <mat-divider></mat-divider>
+            <a mat-list-item href="showTileset">Tileset</a>
+            <mat-divider></mat-divider>
+            <a mat-list-item href="showMap">Map</a>
+          </mat-nav-list>
+        </mat-list>
 
-    </div>
-  </mat-card-content>
+    </mat-card-content>
+
+  </mat-card>
   <div style="float: left; ">
     <router-outlet></router-outlet>
   </div>

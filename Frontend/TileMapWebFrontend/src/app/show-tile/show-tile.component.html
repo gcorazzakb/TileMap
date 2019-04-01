@@ -1,3 +1,14 @@
-<p>
-  show-tile works!
-</p>
+ <mat-card class="wrapper">
+   <mat-card-title>TileInfo</mat-card-title>
+   <mat-card-content>
+     <div class="whitebordered" style="height: 70px; display: inline-block; float:left; " >
+       <img class="tileImg   pixelated" *ngIf="img" src="{{this.img}}">
+     </div>
+     <div  style="float:left;">
+       <h2>TileID:</h2> {{tileID}}
+     </div>
+
+   </mat-card-content>
+
+ </mat-card>
+

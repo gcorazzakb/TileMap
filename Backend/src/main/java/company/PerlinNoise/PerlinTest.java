@@ -36,7 +36,7 @@ public class PerlinTest {
             return -1;
         });
 
-        final PerlinNoise pn = new PerlinNoise(10,10,13387, new CosInterpolate(), probablisticRandom);
+        final PerlinNoise pn = new PerlinNoise(50,10,13387, new CosInterpolate(), probablisticRandom);
 
         JFrame frame = new JFrame("Perlin Noise");
         JPanel panel = new JPanel() {

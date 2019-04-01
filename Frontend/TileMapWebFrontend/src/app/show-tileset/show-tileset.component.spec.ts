@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ShowTilesetComponent } from './show-tileset.component';
+import {HttpClientModule} from "@angular/common/http";
 
 describe('ShowTilesetComponent', () => {
   let component: ShowTilesetComponent;
@@ -8,7 +9,10 @@ describe('ShowTilesetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShowTilesetComponent ]
+      declarations: [ ShowTilesetComponent ],
+      imports: [
+        HttpClientModule
+      ]
     })
     .compileComponents();
   }));

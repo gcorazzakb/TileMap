@@ -40,7 +40,6 @@
         </div>
       </div>
 
-
     </div>
 
     <!--<button mat-stroked-button style="position: absolute; top: 10px; left: 10px;"(click)="zoomOut()"><h1>-</h1></button>-->
@@ -48,7 +47,10 @@
     <!--</div>-->
 
   </mat-card>
-  <mat-card *ngIf="showTile">
 
-  </mat-card>
 </mat-card>
+<!--"-->
+
+<div *ngIf="showTile.x!=-1" style="float:left;">
+  <app-show-tile [tileID]="getShowTileID()"></app-show-tile>
+</div>

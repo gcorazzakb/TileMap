@@ -10,16 +10,13 @@ export class RESTService {
 
   constructor(private http: HttpClient) { }
 
-  getUpperCase(toUpper: String) : Observable<Object> {
-    return this.http.get("http://localhost:8080/greeting?name=" + toUpper);
-  }
 
   getMapImg(seed) : Observable<Blob> {
     return this.http.get("http://localhost:8080/img?seed="+seed, { responseType: 'blob' } );
   }
 
-  getTileSetNames() : Observable<Object> {
-    return this.http.get("http://localhost:8080/getTileSetNames" );
+  getTileSetNames() : Observable<string> {
+    return this.http.get<string>("http://localhost:8080/getTileSetNames" );
   }
 
   getMapArray(seed): Observable<string>{

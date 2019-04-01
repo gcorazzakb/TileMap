@@ -21,7 +21,7 @@ export class MapArrayComponent implements OnInit {
 
   mapImg;
 
-  showTile;
+  showTile= {x: -1, y: 0};
 
 
   constructor(private rest: RESTService) {
@@ -30,13 +30,13 @@ export class MapArrayComponent implements OnInit {
   ngOnInit() {
   }
 
-  loadMap(seed) {
+  loadMap(seed): void {
     this.seed = seed;
     this.getMapImg();
     this.getMapArray();
   }
 
-  getMapArray() {
+  getMapArray(): void {
     this.rest.getMapArray(this.seed).subscribe(ma => {
       console.log(ma);
       this.mapArray = <any>ma; //is it good? I mean.. no how to make it better?
@@ -46,7 +46,7 @@ export class MapArrayComponent implements OnInit {
     });
   }
 
-  getMapImg() {
+  getMapImg(): void {
     this.rest.getMapImg(this.seed).subscribe(data => {
       let fileReader = Util.createImageFromBlob(data, () => {
         this.mapImg = fileReader.result;
@@ -56,17 +56,7 @@ export class MapArrayComponent implements OnInit {
     })
   }
 
-  getImg(l, x, y) {
-    this.rest.getTileImg(this.mapArray[l][x][y].id).subscribe(data => {
-      let fileReader = Util.createImageFromBlob(data, () => {
-        this.mapArray[l][x][y].img = fileReader.result;
-      });
-    }, error => {
-      console.log(error);
-    });
-  }
-
-  clickOnTile(event: MouseEvent) {
+  clickOnTile(event: MouseEvent): void {
     let id= +(<Element>event.target).id;
     let x = id % this.mapWidth;
     let y = Math.floor(id / this.mapWidth);
@@ -102,5 +92,9 @@ export class MapArrayComponent implements OnInit {
     }else{
       element.classList.add("scaled3");
     }
+  }
+
+  getShowTileID() {
+    return 10;
   }
 }

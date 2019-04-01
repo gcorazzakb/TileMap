@@ -16,10 +16,14 @@ cache:
   directories:
     - ./Frontend/TileMapFrontend/node_modules
 
+
+before_install:
+  - cd ./Frontend/TileMapWebFrontend
 install:
   - npm install
 
-before_script: cd ./Frontend/TileMapWebFrontend
+before_script:
+  - cd ./Frontend/TileMapWebFrontend
 script:
   - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
   - npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js

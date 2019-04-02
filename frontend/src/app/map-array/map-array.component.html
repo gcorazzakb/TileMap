@@ -1,0 +1,56 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Show Map</mat-card-title>
+  </mat-card-header>
+
+  <form #form="ngForm" (ngSubmit)="loadMap( seed )">
+    <mat-form-field appearance="standard">
+      <input name="formSeed" required matInput type="number" placeholder="Seed" [(ngModel)]="seed">
+    </mat-form-field>
+
+    <button type="submit" [disabled]="form.invalid" mat-raised-button>Enter Seed and get MapArray</button>
+  </form>
+
+
+  <mat-card class="cardResize">
+
+    <!--<div >-->
+
+    <div class="mapImgWrapper">
+
+      <div class="zoomBtn" style="left: 10px;">
+        <button mat-stroked-button (click)="zoomIn()"><h1>+</h1></button>
+      </div>
+      <div class="zoomBtn" style="right: 10px;">
+        <button mat-stroked-button (click)="zoomOut()"><h1>-</h1></button>
+      </div>
+
+
+      <div cdkDrag>
+        <div id="zoomDiv" class="scaled2" style="position: relative;">
+          <img *ngIf="mapImg" class="posAbsolut0 pixelated mapImage" src="{{mapImg}}">
+          <div *ngIf="mapArray" class="posAbsolut0">
+            <div *ngFor="let mapX of mapArray[0]; index as x;" [style.width.px]="mapArray[0].length*16">
+              <div id="{{x*mapArray[0][0].length+y}}"
+                   *ngFor="let map of mapX; index as y;"
+                   class="tile"
+                   (click)="clickOnTile($event)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!--<button mat-stroked-button style="position: absolute; top: 10px; left: 10px;"(click)="zoomOut()"><h1>-</h1></button>-->
+
+    <!--</div>-->
+
+  </mat-card>
+
+</mat-card>
+<!--"-->
+
+<div *ngIf="showTile.x!=-1" style="float:left;">
+  <app-show-tile [tileID]="getShowTileID()"></app-show-tile>
+</div>

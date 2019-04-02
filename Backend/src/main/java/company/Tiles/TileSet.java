@@ -19,6 +19,7 @@ public class TileSet {
     private static int[] initSmallMap() {
         int[] map = new int[18];
         try {
+            System.out.println(new File("").getAbsolutePath());
             BufferedReader mapfilereader = new BufferedReader(new FileReader(new File("./img/ground2/smallMap.txt")));
             for (int i = 0; i < 18; i++) {
                 map[i] = Integer.valueOf(mapfilereader.readLine());

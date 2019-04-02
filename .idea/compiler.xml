@@ -6,24 +6,14 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Backend" />
-        <module name="Frontend" />
+        <module name="backend" />
+        <module name="TileMap" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Backend" target="1.8" />
-      <module name="backend" target="1.8" />
-      <module name="SpringBackend" target="8" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Backend" options="-parameters" />
-      <module name="Frontend" options="" />
       <module name="backend" options="-parameters" />
     </option>
-  </component>
-  <component name="TypeScriptCompiler">
-    <option name="showAllErrors" value="true" />
   </component>
 </project>

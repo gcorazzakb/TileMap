@@ -13,6 +13,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class TileRepository {
@@ -40,8 +42,15 @@ public class TileRepository {
     }
 
     public Tile loadTile(int id) {
-        return jdbcTemplate.queryForObject("SELECT img FROM Tile WHERE id=" + id+ ";", (resultSet, i) -> {
-            byte[] img = resultSet.getBytes(1);
+        List<Tile> query = jdbcTemplate.query(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+                PreparedStatement preparedStatement = con.prepareStatement("SELECT img FROM Tile WHERE id=(?);");
+                preparedStatement.setInt(1, id);
+                return preparedStatement;
+            }
+        }, (rs, rowNum) -> {
+            byte[] img = rs.getBytes(1);
             ByteArrayInputStream bis = new ByteArrayInputStream(img);
             try {
                 BufferedImage bImage = ImageIO.read(bis);
@@ -51,5 +60,12 @@ public class TileRepository {
             }
             return null;
         });
+
+        if (query.isEmpty()){
+            return null;
+        }else{
+            return query.get(0);
+        }
+
     }
 }

@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {RESTService} from "../rest.service";
-import {Util} from "../Util";
+import {RESTService} from '../rest.service';
+import {Util} from '../Util';
 
 @Component({
   selector: 'app-show-tile',
@@ -11,7 +11,7 @@ export class ShowTileComponent implements OnInit {
 
   @Input() tileID: number;
 
-  img: any;
+  img: string | ArrayBuffer;
   block: boolean[][];
 
   constructor(private rest: RESTService) { }
@@ -23,11 +23,11 @@ export class ShowTileComponent implements OnInit {
 
   getImg() {
     this.rest.getTileImg(this.tileID).subscribe(data => {
-      let fileReader = Util.createImageFromBlob(data, () => {
+      const fileReader = Util.createImageFromBlob(data, () => {
         this.img = fileReader.result;
       });
     }, error => {
       console.log(error);
-    })
+    });
   }
 }

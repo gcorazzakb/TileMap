@@ -6,7 +6,7 @@ class Tile {
   }
 
   id: number;
-  //block
+  // block
 }
 
 @Component({
@@ -22,11 +22,11 @@ export class LayeredTileComponent implements OnInit {
   @Input() Y: number;
   @Input() map: any;
 
-  //layers = [];
+  // layers = [];
 
   ngOnInit() {
-    //const layerAmount=this.map.length;
-    console.log(this.X, this.Y)
+    // const layerAmount=this.map.length;
+    console.log(this.X, this.Y);
     /*for (var i = 0; i < layerAmount; i++){
       let mapTile = this.map[i][this.X][this.Y];
       if (mapTile!= null){

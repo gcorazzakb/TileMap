@@ -1,9 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {RESTService} from "../rest.service";
-import {Util} from "../Util";
-import {element} from "protractor";
-import {ɵSharedStylesHost} from "@angular/platform-browser";
-
+import {RESTService} from '../rest.service';
+import {Util} from '../Util';
 
 @Component({
   selector: 'app-map-array',
@@ -21,7 +18,7 @@ export class MapArrayComponent implements OnInit {
 
   mapImg;
 
-  showTile= {x: -1, y: 0};
+  showTile = {x: -1, y: 0};
 
 
   constructor(private rest: RESTService) {
@@ -39,58 +36,58 @@ export class MapArrayComponent implements OnInit {
   getMapArray(): void {
     this.rest.getMapArray(this.seed).subscribe(ma => {
       console.log(ma);
-      this.mapArray = <any>ma; //is it good? I mean.. no how to make it better?
-      this.mapWidth= this.mapArray[0].length;
-      this.mapHeight= this.mapArray[0][0].length;
-      //this.getImg(0,0,3);
+      this.mapArray = ma as any; // is it good? I mean.. no how to make it better?
+      this.mapWidth = this.mapArray[0].length;
+      this.mapHeight = this.mapArray[0][0].length;
+      // this.getImg(0,0,3);
     });
   }
 
   getMapImg(): void {
     this.rest.getMapImg(this.seed).subscribe(data => {
-      let fileReader = Util.createImageFromBlob(data, () => {
+      const fileReader = Util.createImageFromBlob(data, () => {
         this.mapImg = fileReader.result;
       });
     }, error => {
       console.log(error);
-    })
+    });
   }
 
   clickOnTile(event: MouseEvent): void {
-    let id= +(<Element>event.target).id;
-    let x = id % this.mapWidth;
-    let y = Math.floor(id / this.mapWidth);
+    const id = +(event.target as Element).id;
+    const x = id % this.mapWidth;
+    const y = Math.floor(id / this.mapWidth);
 
-    console.log(x+"!"+y);
-    this.showTile.x=x;
-    this.showTile.y=y;
+    console.log(x + '!' + y);
+    this.showTile.x = x;
+    this.showTile.y = y;
   }
 
   zoomIn() {
     this.zoom++;
-    if (this.zoom>2){
-      this.zoom=2;
+    if (this.zoom > 2) {
+      this.zoom = 2;
     }
     this.setZoom();
   }
 
   zoomOut() {
     this.zoom--;
-    if (this.zoom<0){
-      this.zoom=0;
+    if (this.zoom < 0) {
+      this.zoom = 0;
     }
     this.setZoom();
   }
 
-  setZoom(){
-    let element = document.getElementById("zoomDiv");
-    element.classList.forEach(value => element.classList.remove(value));
-    if (this.zoom==0){
-      element.classList.add("scaled1");
-    }else if(this.zoom==1){
-      element.classList.add("scaled2");
-    }else{
-      element.classList.add("scaled3");
+  setZoom() {
+    const htmlElement = document.getElementById('zoomDiv');
+    htmlElement.classList.forEach(value => htmlElement.classList.remove(value));
+    if (this.zoom === 0) {
+      htmlElement.classList.add('scaled1');
+    } else if (this.zoom === 1) {
+      htmlElement.classList.add('scaled2');
+    } else {
+      htmlElement.classList.add('scaled3');
     }
   }
 

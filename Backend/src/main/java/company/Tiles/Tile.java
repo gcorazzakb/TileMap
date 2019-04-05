@@ -31,4 +31,8 @@ public class Tile {
     public int getId() {
         return id;
     }
+
+    public boolean[][] getBlock() {
+        return block;
+    }
 }

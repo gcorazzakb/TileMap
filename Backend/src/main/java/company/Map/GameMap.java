@@ -18,7 +18,7 @@ public class GameMap {
     final int seed;
 
     //public static final ArrayList<TileSet> tileSets= loadTileSetsPerImg();
-    public static ArrayList<TileSet> tileSets;
+    public static ArrayList<TileSet> tileSets=loadTileSetsPerImg();
 
     private static ArrayList<TileSet> loadTileSetsPerDB() {
         ArrayList<TileSet> tileSets = new ArrayList<>();

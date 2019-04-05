@@ -1,16 +1,21 @@
 package company.PerlinNoise;
 
 import company.PerlinNoise.Interpolator.CosInterpolate;
-import company.PerlinNoise.Interpolator.Linear;
+import org.junit.Test;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Random;
 
-public class PerlinTest {
-    public static void main(String[] args) {
+import static org.junit.Assert.*;
+
+public class PerlinNoiseTest {
+
+    @Test
+    public void PerlinNoiseTest() {
 
         ProbablisticRandom probablisticRandom = new ProbablisticRandom(1, 1f);
         probablisticRandom.addProbablisticPoint(0.0100f, 1f);
@@ -53,12 +58,18 @@ public class PerlinTest {
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        /*frame.addWindowListener(new WindowAdapter() {
+        frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                TileIO.saveTileSet("TestSave");
+                assertTrue(true);
             }
-        });*/
+        });
+
+        while(true) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) { }
+        }
 
     }
 }

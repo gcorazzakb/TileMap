@@ -1,10 +1,16 @@
-package DB;
+package spring.DB;
+
+import org.junit.Test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
-public class PostgreSQLJDBC {
-    public static void main(String args[]) {
+import static org.junit.Assert.*;
+
+public class DB {
+    @Test
+    public void testDBConnectionAndIfTheDriverIsAvaiable() throws SQLException {
         Connection c = null;
         try {
             Class.forName("org.postgresql.Driver");
@@ -15,9 +21,10 @@ public class PostgreSQLJDBC {
             e.printStackTrace();
             System.err.println(e.getClass().getName()+": "+e.getMessage());
             System.exit(0);
+            fail();
         }
-        System.out.println("Opened database successfully");
 
+        assertTrue(c.isValid(2));
 
     }
 }

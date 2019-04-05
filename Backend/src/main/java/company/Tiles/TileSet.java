@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TileSet {
-    private String name;
 
     private Tile[] tiles = new Tile[48];
 
@@ -49,7 +48,6 @@ public class TileSet {
 
     public static TileSet loadSmallTileSet(String path) throws IOException {
         TileSet tileSet = new TileSet();
-        tileSet.name=path;
         BufferedImage tilesImg = ImageIO.read(new File(path));
         for (int x = 0; x < 6; x++) {
             for (int y = 0; y < 3; y++) {
@@ -72,12 +70,11 @@ public class TileSet {
     }
 
     public TileSet(String path) throws IOException {
-        name=path;
         BufferedImage tilesImg = ImageIO.read(new File(path));
         imgToTiles(tilesImg);
     }
 
-    public void imgToTiles(BufferedImage img) {
+    private void imgToTiles(BufferedImage img) {
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 6; y++) {
                 BufferedImage tileImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);

@@ -1,10 +1,10 @@
-import {Observable} from "rxjs";
+import {Observable} from 'rxjs';
 
 export class Util {
 
   static createImageFromBlob(image: Blob, listnr)  {
-    let reader = new FileReader();
-    reader.addEventListener("load", listnr, false);
+    const reader = new FileReader();
+    reader.addEventListener('load', listnr, false);
 
     if (image) {
       reader.readAsDataURL(image);

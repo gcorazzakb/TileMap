@@ -1,21 +1,21 @@
 package spring.Repositories;
 
 
+import company.Tiles.Tile;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.RequestBuilder;
+import spring.Models.TileJSONModel;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -27,9 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 //@SpringBootTest()
 @RunWith(SpringRunner.class)
+@WebAppConfiguration
 @AutoConfigureMockMvc
 public class ControllerWithoutServerTest {
-
 
     @Autowired
     MockMvc mockMvc;
@@ -40,15 +40,18 @@ public class ControllerWithoutServerTest {
     @Test
     public void getTileImgWithID10() throws Exception {
         when(restController.getTileImg("10")).then(invocationOnMock -> new byte[]{0,1,2});
+
         mockMvc.perform(get("/getTileImg?tileID=10")).andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.IMAGE_PNG))
                 .andExpect(content().bytes(new byte[]{0,1,2}));
     }
 
-    @Test
-    public void getTileInfoAboutTileWithID10() throws JSONException {
-    }
+/*    @Test
+    public void getTileInfoAboutTileWithID10() throws Exception {
+        when(restController.getTileInfo("10")).then(invocationOnMock -> null);
 
-    @Test
-    public void getMap() {
-    }
+        mockMvc.perform(get("/getTileInfo?tileID=10")).andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string("{\"id\":10,\"block\":null}"));
+    }*/
 }

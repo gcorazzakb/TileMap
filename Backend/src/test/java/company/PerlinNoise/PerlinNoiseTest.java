@@ -1,6 +1,7 @@
 package company.PerlinNoise;
 
 import company.PerlinNoise.Interpolator.CosInterpolate;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.swing.*;
@@ -15,6 +16,7 @@ import static org.junit.Assert.*;
 public class PerlinNoiseTest {
 
     @Test
+    @Ignore
     public void PerlinNoiseTest() {
 
         ProbablisticRandom probablisticRandom = new ProbablisticRandom(1, 1f);

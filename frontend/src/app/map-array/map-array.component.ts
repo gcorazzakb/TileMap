@@ -8,17 +8,18 @@ import {Util} from '../Util';
   styleUrls: ['./map-array.component.css']
 })
 export class MapArrayComponent implements OnInit {
-  private mapArray: any[][][];
+  mapArray: any[][][];
 
-  mapWidth: number;
-  mapHeight: number;
+  private mapWidth: number;
+  private mapHeight: number;
+  private mapLayers: number;
 
   seed: number;
   zoom = 2;
 
   mapImg;
 
-  showTile = {x: -1, y: 0};
+  showTile = {x: -1, y: 0, id: 0};
 
 
   constructor(private rest: RESTService) {
@@ -39,6 +40,7 @@ export class MapArrayComponent implements OnInit {
       this.mapArray = ma as any; // is it good? I mean.. no how to make it better?
       this.mapWidth = this.mapArray[0].length;
       this.mapHeight = this.mapArray[0][0].length;
+      this.mapLayers = this.mapArray.length;
       // this.getImg(0,0,3);
     });
   }
@@ -57,13 +59,13 @@ export class MapArrayComponent implements OnInit {
     const id = +(event.target as Element).id;
     const x = id % this.mapWidth;
     const y = Math.floor(id / this.mapWidth);
-
-    console.log(x + '!' + y);
     this.showTile.x = x;
     this.showTile.y = y;
+    this.showTile.id = this.getHighestShowTileID();
+    console.log(this.showTile);
   }
 
-  zoomIn() {
+  zoomIn(): void {
     this.zoom++;
     if (this.zoom > 2) {
       this.zoom = 2;
@@ -71,7 +73,7 @@ export class MapArrayComponent implements OnInit {
     this.setZoom();
   }
 
-  zoomOut() {
+  zoomOut(): void {
     this.zoom--;
     if (this.zoom < 0) {
       this.zoom = 0;
@@ -79,7 +81,7 @@ export class MapArrayComponent implements OnInit {
     this.setZoom();
   }
 
-  setZoom() {
+  setZoom(): void {
     const htmlElement = document.getElementById('zoomDiv');
     htmlElement.classList.forEach(value => htmlElement.classList.remove(value));
     if (this.zoom === 0) {
@@ -91,7 +93,20 @@ export class MapArrayComponent implements OnInit {
     }
   }
 
-  getShowTileID() {
-    return 10;
+  getHighestShowTileID(): number {
+    const showTileIDs = this.getShowTileIDs();
+    return showTileIDs[1];
+  }
+
+  getShowTileIDs(): number[] {
+    const tiles: number[] = [];
+    for (let i = 0; i < this.mapLayers; i++) {
+      const id = this.mapArray[i][this.showTile.x][this.showTile.y];
+      if ( id != null ) {
+        tiles.push(id.id);
+      }
+    }
+    console.log(tiles)
+    return tiles;
   }
 }

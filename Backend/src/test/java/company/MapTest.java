@@ -43,7 +43,9 @@ public class MapTest {
         while(true) {
             try {
                 Thread.sleep(1000);
-            } catch (InterruptedException e) { }
+            } catch (InterruptedException e) {
+                assertTrue(true);
+            }
         }
 
     }

@@ -23,13 +23,13 @@ public class RepositoryTest {
     TileSetRepository tileSetRepository;
 
     @Test
-    public void testThatItLoadsTileWithID1Correctly() {
+    public void test_that_it_loads_tile_with_id10_correctly() {
         Tile tile = tileRepository.loadTile(1);
         assertTrue(tile.getId()==1);
     }
 
     @Test
-    public void testThatItLoadsTileSetWithID1Correctly(){
+    public void test_that_it_loads_tile_set_with_id10_correctly(){
         TileSet tileSet = tileSetRepository.getTileSet(1);
         assertTrue(tileSet!=null);
     }

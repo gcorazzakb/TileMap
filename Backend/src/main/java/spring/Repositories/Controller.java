@@ -1,6 +1,7 @@
 package spring.Repositories;
 
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.io.IOException;
 import company.Map.GameMap;
 import company.Tiles.Tile;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import spring.Models.TileJSONModel;
 
@@ -33,7 +35,7 @@ public class Controller {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping(value = "/getTileInfo")
+    @GetMapping(value = "/getTileInfo", produces = MediaType.APPLICATION_JSON_VALUE)
     public TileJSONModel getTileInfo(@RequestParam(value="tileID") String tileID) {
         return new TileJSONModel(tileRepository.loadTile(Integer.valueOf(tileID)));
     }

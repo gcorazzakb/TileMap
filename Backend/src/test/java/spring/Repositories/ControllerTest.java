@@ -19,7 +19,6 @@ import static org.junit.Assert.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @RunWith(SpringRunner.class)
-@AutoConfigureMockMvc
 public class ControllerTest {
 
     @LocalServerPort
@@ -42,6 +41,7 @@ public class ControllerTest {
     public void getTileInfoAboutTileWithID10() throws JSONException {
         String JOSNTile = restTemplate.getForObject("http://localhost:" + port + "/getTileInfo?tileID=10", String.class);
         JSONObject parsed = new JSONObject(JOSNTile);
+        System.out.println(JOSNTile);
         int id = parsed.getInt("id");
         Assert.assertEquals(id, 10);
     }

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, OnChanges} from '@angular/core';
 import {RESTService} from '../rest.service';
 import {Util} from '../Util';
 
@@ -7,7 +7,7 @@ import {Util} from '../Util';
   templateUrl: './show-tile.component.html',
   styleUrls: ['./show-tile.component.css']
 })
-export class ShowTileComponent implements OnInit {
+export class ShowTileComponent implements OnInit, OnChanges {
 
   @Input() tileID: number;
 
@@ -18,6 +18,10 @@ export class ShowTileComponent implements OnInit {
 
 
   ngOnInit() {
+    this.getImg();
+  }
+
+  ngOnChanges() {
     this.getImg();
   }
 

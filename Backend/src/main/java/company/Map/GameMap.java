@@ -9,16 +9,17 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static company.Tiles.TileSet.getBackendDir;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 @Component
 public class GameMap {
-    public static final int layerHeight=5;
+    public static final int layerHeight = 5;
     MapPart part;
     final int seed;
 
     //public static final ArrayList<TileSet> tileSets= loadTileSetsPerImg();
-    public static ArrayList<TileSet> tileSets=loadTileSetsPerImg();
+    public static ArrayList<TileSet> tileSets = loadTileSetsPerImg();
 
     private static ArrayList<TileSet> loadTileSetsPerDB() {
         ArrayList<TileSet> tileSets = new ArrayList<>();
@@ -29,15 +30,17 @@ public class GameMap {
         ArrayList<TileSet> tileSets = new ArrayList<>();
 
         try {
-            tileSets.add(TileSet.loadSmallTileSet("./img/ground2/grassWater.png"));
-            tileSets.add(TileSet.loadSmallTileSet("./img/ground2/grassAir.png"));
-            tileSets.add(TileSet.loadSmallTileSet("./img/ground2/snowWater.png"));
-            tileSets.add(TileSet.loadSmallTileSet("./img/ground2/snowAir.png"));
-            tileSets.add(TileSet.loadSmallTileSet("./img/ground2/dirtWater.png"));
-            tileSets.add(TileSet.loadSmallTileSet("./img/ground2/dirtAir.png"));
+            String backendDir = getBackendDir();
+            tileSets.add(TileSet.loadSmallTileSet(backendDir + "./img/ground2/grassWater.png"));
+            tileSets.add(TileSet.loadSmallTileSet(backendDir + "./img/ground2/grassAir.png"));
+            tileSets.add(TileSet.loadSmallTileSet(backendDir + "./img/ground2/snowWater.png"));
+            tileSets.add(TileSet.loadSmallTileSet(backendDir + "./img/ground2/snowAir.png"));
+            tileSets.add(TileSet.loadSmallTileSet(backendDir + "./img/ground2/dirtWater.png"));
+            tileSets.add(TileSet.loadSmallTileSet(backendDir + "./img/ground2/dirtAir.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+
 
         return tileSets;
     }

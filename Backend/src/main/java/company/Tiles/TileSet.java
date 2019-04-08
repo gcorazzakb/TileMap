@@ -19,7 +19,7 @@ public class TileSet {
         int[] map = new int[18];
         try {
             System.out.println(new File("").getAbsolutePath());
-            BufferedReader mapfilereader = new BufferedReader(new FileReader(new File("./img/ground2/smallMap.txt")));
+            BufferedReader mapfilereader = new BufferedReader(new FileReader(new File(getBackendDir()+"./img/ground2/smallMap.txt")));
             for (int i = 0; i < 18; i++) {
                 map[i] = Integer.valueOf(mapfilereader.readLine());
             }
@@ -27,6 +27,15 @@ public class TileSet {
             e.printStackTrace();
         }
         return map;
+    }
+
+    public static String getBackendDir() {
+        String backendDir="";
+
+        if (new File("").getAbsolutePath().endsWith("TileMap")){
+            backendDir="./backend/";
+        }
+        return backendDir;
     }
 
     private static Map<Integer, Integer> initBitToIntMap() {

@@ -55,7 +55,8 @@ public class PerlinNoise {
 
     private float rasterValue(int x, int y){
         Random random = new Random(x);
-        Random r1 = new Random(seed + random.nextInt()+ random.nextInt());
+        Random randseed = new Random(seed);
+        Random r1 = new Random(randseed.nextInt()+ randseed.nextInt() + random.nextInt()+ random.nextInt());
         Random random1 = new Random(y);
         Random r2 = new Random( r1.nextInt() + random1.nextInt() + random1.nextInt());
         return probablisticRandom.getRandom(r2);

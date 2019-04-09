@@ -10,17 +10,33 @@
 </mat-card>
 
 <mat-card *ngIf="tileset" style="float: left">
+  <input type="file" accept="image/*" style="display: none" #file (change)="fileChange($event)"/>
+
   <mat-card-title>TileSet</mat-card-title>
   <h2>TileSetID: {{tileset.id}}</h2>
 
   <mat-card-content>
+    <button mat-button (click)="toggleShowAll()"> <h1>+/-</h1> </button>
     <mat-nav-list>
 
-      <mat-list-item *ngFor="let img of tileImg; let i = index" [routerLink]=["/showTile",{id:1}]>
-        <img class="tileImg" *ngIf="img" [src]="img"  >
-      </mat-list-item>
+      <div *ngFor="let img of tileImg; let i = index">
+
+        <mat-list-item class="tileSetListItem" *ngIf="tileset.tiles[i]" [routerLink]="['/showTile',{id:tileset.tiles[i].id}]">
+          <img class="tileImg" *ngIf="img" [src]="img">
+        </mat-list-item>
+
+        <mat-list-item class="tileSetListItem" *ngIf="showAll && !tileset.tiles[i]" (click)="addTile(i); file.click(); ">
+
+          <div >
+            <img class="tileImg" style="filter: grayscale(100%);" src="/assets/defaulttiles/{{i+1}}.png">
+          </div>
+
+        </mat-list-item>
+
+      </div>
 
     </mat-nav-list>
   </mat-card-content>
 
 </mat-card>
+

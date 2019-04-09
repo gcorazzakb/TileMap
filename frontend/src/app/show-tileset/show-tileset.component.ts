@@ -11,6 +11,9 @@ export class ShowTilesetComponent implements OnInit {
   tileSetIDs: number[];
   tileset: any;
   tileImg: ArrayBuffer[] = [];
+  showAll: boolean;
+  private tileIndex: number;
+  private tileSetID: number;
 
   constructor(private rest: RESTService) {
   }
@@ -21,8 +24,9 @@ export class ShowTilesetComponent implements OnInit {
     });
   }
 
-  loadTileSet(id: number) {
-    this.rest.getTileSet(id).subscribe(tilesetJSON => {
+  loadTileSet(tileSetID: number) {
+    this.tileSetID = tileSetID;
+    this.rest.getTileSet(tileSetID).subscribe(tilesetJSON => {
       this.tileset = tilesetJSON;
 
 
@@ -30,13 +34,30 @@ export class ShowTilesetComponent implements OnInit {
       for (const i in tiles) {
         if ( tiles[i] != null) {
           this.rest.getTileImg(tiles[i].id).subscribe(blobImg => {
-            const fl = Util.createImageFromBlob(blobImg,( ) => {
+            const fl = Util.createImageFromBlob(blobImg, ( ) => {
               this.tileImg[i] = fl.result;
             });
           });
         }
       }
 
+    });
+  }
+
+  toggleShowAll() {
+    this.showAll = !this.showAll;
+  }
+
+  addTile(tileIndex: number) {
+    this.tileIndex = tileIndex;
+  }
+
+
+  fileChange($event: Event) {
+    const imgFile = event.target.files[0];
+    console.log(imgFile);
+    this.rest.uploadImage(imgFile, this.tileSetID, this.tileIndex).subscribe(e => {
+      console.log(e);
     });
   }
 }

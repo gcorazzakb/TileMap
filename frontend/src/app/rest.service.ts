@@ -29,4 +29,10 @@ export class RESTService {
   getTileSet(id: number): Observable<string> {
     return this.http.get<string>('http://localhost:8080/getTileSet?tileSetID=' + id );
   }
+
+  uploadImage(image: File, tileSetID: number, tileIndex1: number): Observable<Response> {
+    const uploadData = new FormData();
+    uploadData.append('tileImg', image, image.name);
+    return this.http.post<Response>('http://localhost:8080/postTileImg?tileSetID=' + tileSetID + '&tileIndex=' + tileIndex1, uploadData);
+  }
 }

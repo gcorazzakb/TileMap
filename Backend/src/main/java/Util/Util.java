@@ -1,6 +1,9 @@
-package company;
+package Util;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Random;
 
 public class Util {
@@ -16,4 +19,17 @@ public class Util {
         img16.getGraphics().drawImage(img, -x * 16, -y * 16, null);
         return img16;
     }
+
+    public static byte[] imgToByteArray(BufferedImage img){
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+
+        // Write to output stream
+        try {
+            ImageIO.write(img, "png", bao);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bao.toByteArray();
+    }
+
 }

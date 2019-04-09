@@ -22,7 +22,7 @@
   top: 0;
 }
 
-.pixelated {
+.tileImg {
   -ms-interpolation-mode: nearest-neighbor; /*!// IE 7+ (non-standard property)*/
   image-rendering: -webkit-crisp-edges; /*!/ Safari 7+*/
   image-rendering: -moz-crisp-edges; /* // Firefox 3.6+*/

@@ -1,6 +1,8 @@
 package company.Tiles;
 
-import company.Util;
+import Util.Util;
+import spring.Models.TileDto;
+import spring.Models.TileSetDto;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -11,6 +13,7 @@ import java.util.Map;
 public class TileSet {
 
     private Tile[] tiles = new Tile[48];
+    private final int ID;
 
     static Map<Integer, Integer> bitIntToInt = initBitToIntMap();
     static int[] smallMap = initSmallMap();
@@ -19,7 +22,7 @@ public class TileSet {
         int[] map = new int[18];
         try {
             System.out.println(new File("").getAbsolutePath());
-            BufferedReader mapfilereader = new BufferedReader(new FileReader(new File(getBackendDir()+"./img/ground2/smallMap.txt")));
+            BufferedReader mapfilereader = new BufferedReader(new FileReader(new File(getBackendDir() + "./img/ground2/smallMap.txt")));
             for (int i = 0; i < 18; i++) {
                 map[i] = Integer.valueOf(mapfilereader.readLine());
             }
@@ -30,10 +33,10 @@ public class TileSet {
     }
 
     public static String getBackendDir() {
-        String backendDir="";
+        String backendDir = "";
 
-        if (new File("").getAbsolutePath().endsWith("TileMap")){
-            backendDir="./backend/";
+        if (new File("").getAbsolutePath().endsWith("TileMap")) {
+            backendDir = "./backend/";
         }
         return backendDir;
     }
@@ -55,9 +58,9 @@ public class TileSet {
         return map;
     }
 
-    public static TileSet loadSmallTileSet(String path) throws IOException {
-        TileSet tileSet = new TileSet();
-        BufferedImage tilesImg = ImageIO.read(new File(path));
+    public static TileSet loadSmallTileSet(String pathToSmallTileSetImg) throws IOException {
+        TileSet tileSet = new TileSet(getTileSetID());
+        BufferedImage tilesImg = ImageIO.read(new File(pathToSmallTileSetImg));
         for (int x = 0; x < 6; x++) {
             for (int y = 0; y < 3; y++) {
                 BufferedImage tileImg = Util.img16(tilesImg, x, y);
@@ -67,18 +70,23 @@ public class TileSet {
         return tileSet;
     }
 
+    private static int getTileSetID() { return 0; }
+
     private static int getTileID() {
         return 0;
     }
 
-    public TileSet() {
+    public TileSet(int id) {
+        ID = id;
     }
 
-    public TileSet(Tile[] tiles) {
-        this.tiles=tiles;
+    public TileSet(Tile[] tiles, int id) {
+        this.tiles = tiles;
+        ID = id;
     }
 
-    public TileSet(String path) throws IOException {
+    public TileSet(String path, int id) throws IOException {
+        ID = id;
         BufferedImage tilesImg = ImageIO.read(new File(path));
         imgToTiles(tilesImg);
     }
@@ -110,10 +118,10 @@ public class TileSet {
     }
 
     private void paintUpdateMap(int[][] map, Tile[][] tMap, int x, int y) {
-        if(!(x>=0 && x<map.length)){
+        if (!(x >= 0 && x < map.length)) {
             return;
         }
-        if(!(y>=0 && y<map[0].length)){
+        if (!(y >= 0 && y < map[0].length)) {
             return;
         }
         if (map[x][y] == 1) {
@@ -121,16 +129,16 @@ public class TileSet {
             int bitTile = get8bitTile(boolSurr);
             int mappedBitTile = bitIntToInt.get(bitTile);
 
-            if(tiles[mappedBitTile]==null){
-                map[x][y]=0;
+            if (tiles[mappedBitTile] == null) {
+                map[x][y] = 0;
 
                 for (int xOff = -1; xOff < 2; xOff++) {
                     for (int yOff = -1; yOff < 2; yOff++) {
-                        paintUpdateMap(map, tMap,x+xOff,y+yOff);
+                        paintUpdateMap(map, tMap, x + xOff, y + yOff);
                     }
                 }
 
-            }else{
+            } else {
                 tMap[x][y] = tiles[mappedBitTile];
             }
 
@@ -184,12 +192,28 @@ public class TileSet {
         return bitTile;
     }
 
-    public Tile getTile(int tile){
-        if(tile>=0 && tile<48){
+    public Tile getTile(int tile) {
+        if (tile >= 0 && tile < 48) {
             return tiles[tile];
         }
         return null;
+
     }
 
+   public TileSetDto toDto(){
+       TileSetDto tileSetDto = new TileSetDto();
 
+       tileSetDto.setID(ID);
+       TileDto[] tileDtos = new TileDto[48];
+       for (int i = 0; i < tileDtos.length; i++) {
+           if(tiles[i]!=null)
+               tileDtos[i]=tiles[i].toDto();
+       }
+       tileSetDto.setTiles(tileDtos);
+       return tileSetDto;
+   }
+
+    public int getID() {
+        return ID;
+    }
 }

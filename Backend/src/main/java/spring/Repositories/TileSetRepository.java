@@ -46,7 +46,7 @@ public class TileSetRepository {
                 if (fk[j] != null)
                     tiles[j] = tileRepository.loadTile(fk[j]);
             }
-            return new TileSet(tiles);
+            return new TileSet(tiles, id);
         });
     }
 

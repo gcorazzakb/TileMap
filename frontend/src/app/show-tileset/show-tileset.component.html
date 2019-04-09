@@ -1,3 +1,26 @@
-<p>
-  show-tileset works!
-</p>
+<mat-card class="wrapper" style="float: left">
+  <mat-card-title>TileSets</mat-card-title>
+  <mat-card-content>
+    <mat-action-list *ngIf="tileSetIDs">
+      <button *ngFor="let id of tileSetIDs" mat-list-item (click)="loadTileSet(id)"> Tileset {{id}} </button>
+    </mat-action-list>
+
+  </mat-card-content>
+
+</mat-card>
+
+<mat-card *ngIf="tileset" style="float: left">
+  <mat-card-title>TileSet</mat-card-title>
+  <h2>TileSetID: {{tileset.id}}</h2>
+
+  <mat-card-content>
+    <mat-nav-list>
+
+      <mat-list-item *ngFor="let img of tileImg; let i = index" [routerLink]=["/showTile",{id:1}]>
+        <img class="tileImg" *ngIf="img" [src]="img"  >
+      </mat-list-item>
+
+    </mat-nav-list>
+  </mat-card-content>
+
+</mat-card>

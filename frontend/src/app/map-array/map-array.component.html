@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card style="float:left;">
   <mat-card-header>
     <mat-card-title>Show Map</mat-card-title>
   </mat-card-header>
@@ -28,7 +28,7 @@
 
       <div cdkDrag>
         <div id="zoomDiv" class="scaled2" style="position: relative;">
-          <img *ngIf="mapImg" class="posAbsolut0 pixelated mapImage" src="{{mapImg}}">
+          <img *ngIf="mapImg" class="posAbsolut0 tileImg mapImage" src="{{mapImg}}">
           <div *ngIf="mapArray" class="posAbsolut0">
             <div *ngFor="let mapX of mapArray[0]; index as x;" [style.width.px]="mapArray[0].length*16">
               <div id="{{x*mapArray[0][0].length+y}}"

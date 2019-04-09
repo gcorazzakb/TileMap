@@ -1,5 +1,7 @@
 package company.Tiles;
 
+import spring.Models.TileDto;
+
 import java.awt.image.BufferedImage;
 
 public class Tile {
@@ -35,4 +37,27 @@ public class Tile {
     public boolean[][] getBlock() {
         return block;
     }
+
+    public static TileDto[][][] convertToJSONModel(Tile[][][] mapPart) {
+        TileDto[][][] mapModel = new TileDto[mapPart.length][mapPart[0].length][mapPart[0][0].length];
+        for (int x = 0; x < mapPart.length; x++) {
+            for (int y = 0; y < mapPart[0].length; y++) {
+                for (int z = 0; z < mapPart[0][0].length; z++) {
+                    if (mapPart[x][y][z]!=null) {
+                        TileDto tileJSONModel = mapPart[x][y][z].toDto();
+                        mapModel[x][y][z] = tileJSONModel;
+                    }
+                }
+            }
+        }
+        return mapModel;
+    }
+
+    public TileDto toDto(){
+        TileDto tileDto = new TileDto();
+        tileDto.setBlock(block);
+        tileDto.setId(id);
+        return tileDto;
+    }
+
 }

@@ -2,7 +2,9 @@ package company.Map;
 
 import company.Tiles.Tile;
 import company.Tiles.TileSet;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import spring.Repositories.TileSetRepository;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -12,14 +14,29 @@ import java.util.ArrayList;
 import static company.Tiles.TileSet.getBackendDir;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
-@Component
 public class GameMap {
     public static final int layerHeight = 5;
     MapPart part;
     final int seed;
 
+    @Autowired
+    TileSetRepository tileSetRepository;
+
     //public static final ArrayList<TileSet> tileSets= loadTileSetsPerImg();
-    public static ArrayList<TileSet> tileSets = loadTileSetsPerImg();
+    public static ArrayList<TileSet> tileSets;
+
+    private void loadTileSets() {
+        if(tileSets!=null){
+            return;
+        }
+
+        if(tileSetRepository!=null){
+            tileSets =  tileSetRepository.getAllTileSets();
+            return;
+        }
+
+        tileSets= loadTileSetsPerImg();
+    }
 
     private static ArrayList<TileSet> loadTileSetsPerDB() {
         ArrayList<TileSet> tileSets = new ArrayList<>();
@@ -46,6 +63,7 @@ public class GameMap {
     }
 
     public GameMap(int seed) {
+        loadTileSets();
         part = new MapPart(seed, 0, 60, 80, 100);
         this.seed = seed;
     }

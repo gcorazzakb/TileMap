@@ -19,8 +19,12 @@ import java.util.List;
 @Repository
 public class TileRepository {
 
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public TileRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public int insertTile(Tile tile) throws IOException {
         BufferedImage img = tile.getImg();

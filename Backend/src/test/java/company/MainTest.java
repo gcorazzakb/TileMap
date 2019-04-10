@@ -1,12 +1,18 @@
 package company;
 
 import company.Map.GameMap;
+import org.junit.Ignore;
+import org.junit.Test;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Main {
-    public static void main(String[] args) {
+import static org.junit.Assert.*;
+
+public class MainTest {
+    @Test
+    @Ignore
+    public void main() throws InterruptedException {
         final GameMap gameMap = new GameMap(1000);
 
         JFrame frame = new JFrame("Map");
@@ -31,6 +37,8 @@ public class Main {
                 TileIO.saveTileSet("TestSave");
             }
         });*/
-
+        while(true){
+            Thread.sleep(1000);
+        }
     }
 }

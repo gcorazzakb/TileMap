@@ -23,7 +23,7 @@ export class ShowTileComponent implements OnInit, OnChanges {
       this.getImg();
     } else {
       this.route.params.subscribe(params => {
-        this.tileID = params[ 'id' ];
+        this.tileID = params.id;
         console.log('Routing Mode', this.tileID);
         this.getImg();
       });

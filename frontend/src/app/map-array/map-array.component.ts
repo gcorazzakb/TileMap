@@ -106,7 +106,7 @@ export class MapArrayComponent implements OnInit {
         tiles.push(id.id);
       }
     }
-    console.log(tiles)
+    console.log(tiles);
     return tiles;
   }
 }

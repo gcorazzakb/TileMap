@@ -21,16 +21,21 @@ import spring.Models.TileSetDto;
 import javax.imageio.ImageIO;
 
 import static Util.Util.imgToByteArray;
-import static company.Tiles.Tile.convertToJSONModel;
 
 @RestController
 public class Controller {
 
-    @Autowired
+    final
     TileRepository tileRepository;
 
-    @Autowired
+    final
     TileSetRepository tileSetRepository;
+
+    @Autowired
+    public Controller(TileRepository tileRepository, TileSetRepository tileSetRepository) {
+        this.tileRepository = tileRepository;
+        this.tileSetRepository = tileSetRepository;
+    }
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/img", produces = "image/png")
@@ -46,7 +51,7 @@ public class Controller {
     }
 
     @CrossOrigin(origins = "*")
-    @GetMapping(value = "/getTileInfo", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/getTileInfo")
     public TileDto getTileInfo(@RequestParam(value = "tileID") String tileID) {
         return tileRepository.loadTile(Integer.valueOf(tileID)).toDto();
     }
@@ -55,16 +60,13 @@ public class Controller {
     @GetMapping(value = "/getMapArray")
     public TileDto[][][] getMap(@RequestParam(value = "seed") String seed) {
         GameMap gameMap = new GameMap(Integer.valueOf(seed));
-        Tile[][][] mapPart = gameMap.getMapPart();
-        TileDto[][][] mapModel = convertToJSONModel(mapPart);
-        return mapModel;
+        return gameMap.getMapPart().toDto();
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping(value = "/getTileSetIDs")
     public Integer[] getTileSetIDs() {
-        Integer[] tileSetIds = tileSetRepository.getTileSetIds();
-        return tileSetIds;
+        return tileSetRepository.getTileSetIds();
     }
 
     @CrossOrigin(origins = "*")

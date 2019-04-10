@@ -37,6 +37,7 @@ public class TileSetRepository {
         return (int) generatedKeyHolder.getKeys().get("id");
     }
 
+
     public TileSet getTileSet(int id) {
         return jdbcTemplate.queryForObject("SELECT tiles FROM tileset WHERE id=" + id + ";", (resultSet, i) -> {
             Integer[] fk = (Integer[]) resultSet.getArray(1).getArray();
@@ -51,7 +52,7 @@ public class TileSetRepository {
     }
 
     public Integer[] getTileSetIds(){
-        return jdbcTemplate.queryForObject("SELECT id FROM tileset"+";",(resultSet, i) -> {
+        return jdbcTemplate.queryForObject("SELECT id FROM tileset;",(resultSet, i) -> {
             ArrayList<Integer> ids= new ArrayList<>();
             do {
                 ids.add(resultSet.getInt(1));
@@ -71,4 +72,7 @@ public class TileSetRepository {
         return tileSets;
     }
 
+    public void updateTile(int tileSetID, int tileIndex, int generatedTileID) {
+        //jdbcTemplate. // inster tile in tileset
+    }
 }

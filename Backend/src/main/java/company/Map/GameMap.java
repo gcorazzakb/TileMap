@@ -3,7 +3,6 @@ package company.Map;
 import company.Tiles.Tile;
 import company.Tiles.TileSet;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import spring.Repositories.TileSetRepository;
 
 import java.awt.*;
@@ -16,7 +15,7 @@ import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 
 public class GameMap {
     public static final int layerHeight = 5;
-    MapPart part;
+    private MapPart part;
     final int seed;
 
     @Autowired
@@ -24,6 +23,13 @@ public class GameMap {
 
     //public static final ArrayList<TileSet> tileSets= loadTileSetsPerImg();
     public static ArrayList<TileSet> tileSets;
+
+
+    public GameMap(int seed) {
+        loadTileSets();
+        part = new MapPart(seed, 0, 60, 80, 100);
+        this.seed = seed;
+    }
 
     private void loadTileSets() {
         if(tileSets!=null){
@@ -62,11 +68,7 @@ public class GameMap {
         return tileSets;
     }
 
-    public GameMap(int seed) {
-        loadTileSets();
-        part = new MapPart(seed, 0, 60, 80, 100);
-        this.seed = seed;
-    }
+
 
     public BufferedImage drawMap() {
         int scale = 1;
@@ -91,7 +93,7 @@ public class GameMap {
         return mapImage;
     }
 
-    public Tile[][][] getMapPart() {
-        return part.getMap();
+    public MapPart getMapPart() {
+        return part;
     }
 }

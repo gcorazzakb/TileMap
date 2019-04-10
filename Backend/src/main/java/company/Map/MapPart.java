@@ -3,6 +3,7 @@ package company.Map;
 import company.PerlinNoise.PerlinNoise;
 import company.Tiles.Tile;
 import company.Tiles.TileSet;
+import spring.Models.TileDto;
 
 import java.awt.*;
 import java.io.IOException;
@@ -15,7 +16,6 @@ public class MapPart {
     private static final int LAYERTOPTHREASH = 1;
     private final int X, Y, width, height;
 
-    private final float[][] heightMap;
     private final Tile[][][] map;
     private static final float threashold = 0.5f;
     private Color trans = Color.magenta, alpha = Color.BLACK, flat = Color.green;
@@ -36,9 +36,24 @@ public class MapPart {
         Y = y;
         this.width = width;
         this.height = height;
-        heightMap = genHeightMap(new float[width][height]);
+        float[][] heightMap = genHeightMap(new float[width][height]);
         map = generateMap(heightMap);
     }
+
+    public TileDto[][][] toDto() {
+       TileDto[][][] mapModel = new TileDto[map.length][map[0].length][map[0][0].length];
+       for (int x = 0; x < map.length; x++) {
+           for (int y = 0; y < map[0].length; y++) {
+               for (int z = 0; z < map[0][0].length; z++) {
+                   if (map[x][y][z]!=null) {
+                       TileDto tileJSONModel = map[x][y][z].toDto();
+                       mapModel[x][y][z] = tileJSONModel;
+                   }
+               }
+           }
+       }
+       return mapModel;
+   }
 
     public Tile[][][] getMap() {
         return map;

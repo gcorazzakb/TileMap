@@ -15,8 +15,8 @@ public class TileSet {
     private Tile[] tiles = new Tile[48];
     private final int ID;
 
-    static Map<Integer, Integer> bitIntToInt = initBitToIntMap();
-    static int[] smallMap = initSmallMap();
+    private static Map<Integer, Integer> bitIntToInt = initBitToIntMap();
+    private static int[] smallMap = initSmallMap();
 
     private static int[] initSmallMap() {
         int[] map = new int[18];
@@ -76,7 +76,7 @@ public class TileSet {
         return 0;
     }
 
-    public TileSet(int id) {
+    private TileSet(int id) {
         ID = id;
     }
 
@@ -148,7 +148,7 @@ public class TileSet {
     }
 
 
-    public boolean[][] getBoolSurr(int X, int Y, int[][] map, boolean b) {
+    private boolean[][] getBoolSurr(int X, int Y, int[][] map, boolean b) {
         boolean[][] surr = new boolean[3][3];
         for (int x = -1; x < 2; x++) {
             for (int y = -1; y < 2; y++) {
@@ -158,7 +158,7 @@ public class TileSet {
         return surr;
     }
 
-    public boolean getBool(int x, int y, boolean b, int[][] map) {
+    private boolean getBool(int x, int y, boolean b, int[][] map) {
         if (x < 0 || y < 0) {
             return b;
         }
@@ -172,7 +172,7 @@ public class TileSet {
 
     }
 
-    public int get8bitTile(boolean[][] surr) {
+    private int get8bitTile(boolean[][] surr) {
         surr[0][0] = surr[0][0] && surr[0][1] && surr[1][0];
         surr[2][0] = surr[2][0] && surr[1][0] && surr[2][1];
         surr[2][2] = surr[2][2] && surr[2][1] && surr[1][2];

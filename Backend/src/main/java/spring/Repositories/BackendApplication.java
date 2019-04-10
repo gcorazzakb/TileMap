@@ -30,7 +30,7 @@ public class BackendApplication implements CommandLineRunner {
     @Autowired
     private ApplicationContext appContext;
 
-    boolean loadDB = false;
+    private boolean loadDB = false;
 
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
@@ -38,8 +38,7 @@ public class BackendApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        ArrayList<TileSet> allTileSets = tileSetRepository.getAllTileSets();
-        GameMap.tileSets=allTileSets;
+        GameMap.tileSets= tileSetRepository.getAllTileSets();
 
         if (!loadDB)
            return;
@@ -48,7 +47,7 @@ public class BackendApplication implements CommandLineRunner {
         Connection c = ds.getConnection();
         ScriptUtils.executeSqlScript(c, new EncodedResource(new ClassPathResource("./createDB.sql"), StandardCharsets.UTF_8));
         GameMap gameMap = new GameMap(0);
-        ArrayList<TileSet> tileSets = gameMap.tileSets;
+        ArrayList<TileSet> tileSets = GameMap.tileSets;
         for (int i = 0; i < tileSets.size(); i++) {
             TileSet tileSet = tileSets.get(i);
             insertTileSet(tileSet);

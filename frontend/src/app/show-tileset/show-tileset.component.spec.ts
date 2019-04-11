@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ShowTilesetComponent } from './show-tileset.component';
 import {HttpClientModule} from '@angular/common/http';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 describe('ShowTilesetComponent', () => {
   let component: ShowTilesetComponent;
@@ -12,7 +13,8 @@ describe('ShowTilesetComponent', () => {
       declarations: [ ShowTilesetComponent ],
       imports: [
         HttpClientModule
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
   }));

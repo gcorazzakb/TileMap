@@ -67,7 +67,7 @@
               <goal>npm</goal>
             </goals>
             <configuration>
-              <arguments>run e2e -- --protractor-config=e2e/protractor-ci.conf.js</arguments>
+              <arguments>run e2e -- --protractor-config=e2e/protractor-ci.conf.js --port 4201</arguments>
             </configuration>
           </execution>
 

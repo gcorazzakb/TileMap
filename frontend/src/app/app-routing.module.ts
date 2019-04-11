@@ -15,4 +15,12 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+
+export class AppRoutingModule {
+  static routes: Routes = [
+    { path: '', redirectTo: '/showMap', pathMatch: 'full'},
+    { path: 'showMap', component: MapArrayComponent },
+    { path: 'showTileset', component: ShowTilesetComponent},
+    { path: 'showTile', component: ShowTileComponent}
+  ];
+}

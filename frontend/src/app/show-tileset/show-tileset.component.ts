@@ -54,7 +54,7 @@ export class ShowTilesetComponent implements OnInit {
 
 
   fileChange($event: Event) {
-    const imgFile = event.target.files[0];
+    const imgFile = ( event.target as HTMLInputElement).files[0];
     console.log(imgFile);
     this.rest.uploadImage(imgFile, this.tileSetID, this.tileIndex).subscribe(e => {
       console.log(e);

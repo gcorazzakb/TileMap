@@ -11,28 +11,28 @@ export class RESTService {
 
 
   getMapImg(seed): Observable<Blob> {
-    return this.http.get('http://localhost:8080/img?seed=' + seed, { responseType: 'blob' } );
+    return this.http.get('rest/img?seed=' + seed, { responseType: 'blob' } );
   }
 
   getTileSetIDs(): Observable<number[]> {
-    return this.http.get<number[]>('http://localhost:8080/getTileSetIDs' );
+    return this.http.get<number[]>('rest/getTileSetIDs' );
   }
 
   getMapArray(seed): Observable<string> {
-    return this.http.get<string>('http://localhost:8080/getMapArray?seed=' + seed );
+    return this.http.get<string>('rest/getMapArray?seed=' + seed );
   }
 
   getTileImg(tileID: number): Observable<Blob> {
-    return this.http.get('http://localhost:8080/getTileImg?tileID=' + tileID, { responseType: 'blob' } );
+    return this.http.get('rest/getTileImg?tileID=' + tileID, { responseType: 'blob' } );
   }
 
   getTileSet(id: number): Observable<string> {
-    return this.http.get<string>('http://localhost:8080/getTileSet?tileSetID=' + id );
+    return this.http.get<string>('rest/getTileSet?tileSetID=' + id );
   }
 
   uploadImage(image: File, tileSetID: number, tileIndex1: number): Observable<Response> {
     const uploadData = new FormData();
     uploadData.append('tileImg', image, image.name);
-    return this.http.post<Response>('http://localhost:8080/postTileImg?tileSetID=' + tileSetID + '&tileIndex=' + tileIndex1, uploadData);
+    return this.http.post<Response>('rest/postTileImg?tileSetID=' + tileSetID + '&tileIndex=' + tileIndex1, uploadData);
   }
 }

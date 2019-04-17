@@ -60,7 +60,7 @@ public class ControllerTest {
     @Test
     public void getImgFromMap() {
         byte[] img = restTemplate.getForObject("http://localhost:" + port + "/img?seed=10", byte[].class);
-        assertEquals(149905, img.length);
+        assertEquals(141047, img.length);
     }
 
 

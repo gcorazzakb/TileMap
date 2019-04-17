@@ -2,6 +2,7 @@ package spring.Repositories;
 
 import company.Tiles.Tile;
 import company.Tiles.TileSet;
+import org.apache.el.stream.Stream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -13,6 +14,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Optional;
 
 @Repository
 public class TileSetRepository {
@@ -51,17 +54,17 @@ public class TileSetRepository {
         });
     }
 
-    public Integer[] getTileSetIds(){
-        return jdbcTemplate.queryForObject("SELECT id FROM tileset;",(resultSet, i) -> {
-            ArrayList<Integer> ids= new ArrayList<>();
+    public Integer[] getTileSetIds() {
+        return jdbcTemplate.queryForObject("SELECT id FROM tileset;", (resultSet, i) -> {
+            ArrayList<Integer> ids = new ArrayList<>();
             do {
                 ids.add(resultSet.getInt(1));
-            }while( (resultSet.next()));
+            } while ((resultSet.next()));
             return ids.toArray(new Integer[0]);
         });
     }
 
-    public ArrayList<TileSet> getAllTileSets(){
+    public ArrayList<TileSet> getAllTileSets() {
         ArrayList<TileSet> tileSets = new ArrayList<>();
         Integer[] tileSetIds = getTileSetIds();
         for (int i = 0; i < tileSetIds.length; i++) {
@@ -73,6 +76,23 @@ public class TileSetRepository {
     }
 
     public void updateTile(int tileSetID, int tileIndex, int generatedTileID) {
-        //jdbcTemplate. // inster tile in tileset
+        TileSet tileSet = getTileSet(tileSetID);
+        Tile[] tiles = tileSet.getTiles();
+        Integer[] tileSetIds = tilesIds(tiles);
+        tileSetIds[tileIndex] = generatedTileID;
+        jdbcTemplate.update(new PreparedStatementCreator() {
+            @Override
+            public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE public.tileset SET tiles = (?) WHERE tileset.id = (?)");
+                Array sqlTileSetIds = connection.createArrayOf("INTEGER", tileSetIds);
+                preparedStatement.setArray(1, sqlTileSetIds);
+                preparedStatement.setInt(2, tileSetID);
+                return preparedStatement;
+            }
+        });
+    }
+
+    private Integer[] tilesIds(Tile[] tiles){
+        return Arrays.stream(tiles).map(tile -> Optional.ofNullable(tile).map(t->t.getId()).orElse(null)).toArray(Integer[]::new);
     }
 }

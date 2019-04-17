@@ -3,6 +3,7 @@ package spring.Repositories;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -22,7 +23,8 @@ import javax.imageio.ImageIO;
 
 import static Util.Util.imgToByteArray;
 
-@RestController
+@RestController()
+@RequestMapping("rest")
 public class Controller {
 
     final
@@ -83,6 +85,7 @@ public class Controller {
                                 @RequestParam("tileImg") MultipartFile file) throws IOException {
         InputStream in = new ByteArrayInputStream(file.getBytes());
         BufferedImage bImageFromConvert = ImageIO.read(in);
+        ImageIO.write(bImageFromConvert, "PNG", new File("./img.png"));
         int generatedTileID = tileRepository.insertTile(new Tile(bImageFromConvert, 0));
         tileSetRepository.updateTile(Integer.valueOf(tileSetID), Integer.valueOf(tileIndex), generatedTileID);
         return new String[]{tileSetID, tileIndex, file.getContentType()};

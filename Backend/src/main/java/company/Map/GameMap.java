@@ -27,7 +27,7 @@ public class GameMap {
 
     public GameMap(int seed) {
         loadTileSets();
-        part = new MapPart(seed, 0, 60, 80, 100);
+        part = new MapPart(0, 0, 60, 80, seed);
         this.seed = seed;
     }
 
@@ -37,19 +37,18 @@ public class GameMap {
         }
 
         if(tileSetRepository!=null){
-            tileSets =  tileSetRepository.getAllTileSets();
+            tileSets =  loadTileSetsPerDB();
             return;
         }
 
         tileSets= loadTileSetsPerImg();
     }
 
-    private static ArrayList<TileSet> loadTileSetsPerDB() {
-        ArrayList<TileSet> tileSets = new ArrayList<>();
-        return tileSets;
+    private ArrayList<TileSet> loadTileSetsPerDB() {
+        return tileSetRepository.getAllTileSets();
     }
 
-    private static ArrayList<TileSet> loadTileSetsPerImg() {
+    private ArrayList<TileSet> loadTileSetsPerImg() {
         ArrayList<TileSet> tileSets = new ArrayList<>();
 
         try {

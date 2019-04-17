@@ -32,6 +32,10 @@ public class TileSet {
         return map;
     }
 
+    public Tile[] getTiles() {
+        return tiles;
+    }
+
     public static String getBackendDir() {
         String backendDir = "";
 

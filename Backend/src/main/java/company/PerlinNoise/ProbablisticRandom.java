@@ -2,7 +2,6 @@ package company.PerlinNoise;
 
 import company.PerlinNoise.Interpolator.Interpolator;
 import company.PerlinNoise.Interpolator.Linear;
-import javafx.util.Pair;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -36,8 +35,8 @@ public class ProbablisticRandom {
         do {
             randX = random.nextFloat();
             Pair<ProbPoint, ProbPoint> pointsSurr = getPointsSurr(randX);
-            ProbPoint l = pointsSurr.getKey();
-            ProbPoint r = pointsSurr.getValue();
+            ProbPoint l = pointsSurr.first;
+            ProbPoint r = pointsSurr.second;
             float b = (randX - r.x) / (l.x - r.x);
             prob = interpolator.interpolate(l.y, r.y, b);
         } while (random.nextFloat() > prob);

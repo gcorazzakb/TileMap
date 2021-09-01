@@ -30,7 +30,7 @@ public class BackendApplication implements CommandLineRunner {
     @Autowired
     private ApplicationContext appContext;
 
-    private boolean loadDB = false;
+    private boolean saveToDB = false; // switch to save Tilesets to DB
 
     public static void main(String[] args) {
         SpringApplication.run(BackendApplication.class, args);
@@ -40,16 +40,15 @@ public class BackendApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         GameMap.tileSets= tileSetRepository.getAllTileSets();
 
-        if (!loadDB)
-           return;
+        if (!saveToDB)
+            return;
 
         DataSource ds = (DataSource) appContext.getBean("dataSource");
         Connection c = ds.getConnection();
         ScriptUtils.executeSqlScript(c, new EncodedResource(new ClassPathResource("./createDB.sql"), StandardCharsets.UTF_8));
         GameMap gameMap = new GameMap(0);
         ArrayList<TileSet> tileSets = GameMap.tileSets;
-        for (int i = 0; i < tileSets.size(); i++) {
-            TileSet tileSet = tileSets.get(i);
+        for (TileSet tileSet : tileSets) {
             insertTileSet(tileSet);
         }
     }

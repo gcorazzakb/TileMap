@@ -12,6 +12,8 @@ import java.util.Map;
 
 public class TileSet {
 
+    private static int tileSetIdCounter = 0;
+    private static int tileIdCounter = 0;
     private Tile[] tiles = new Tile[48];
     private final int ID;
 

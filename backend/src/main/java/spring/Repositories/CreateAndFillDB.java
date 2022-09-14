@@ -19,30 +19,23 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 @SpringBootApplication
-public class BackendApplication implements CommandLineRunner {
-
-    @Autowired
-    private TileRepository tileRepository;
+public class CreateAndFillDB implements CommandLineRunner {
 
     @Autowired
     private TileSetRepository tileSetRepository;
 
     @Autowired
+    private TileRepository tileRepository;
+
+    @Autowired
     private ApplicationContext appContext;
 
-    private boolean saveToDB = false; // switch to save Tilesets to DB
-
     public static void main(String[] args) {
-        SpringApplication.run(BackendApplication.class, args);
+        SpringApplication.run(CreateAndFillDB.class, args);
     }
 
     @Override
     public void run(String... args) throws Exception {
-        GameMap.tileSets= tileSetRepository.getAllTileSets();
-
-        if (!saveToDB)
-            return;
-
         DataSource ds = (DataSource) appContext.getBean("dataSource");
         Connection c = ds.getConnection();
         ScriptUtils.executeSqlScript(c, new EncodedResource(new ClassPathResource("./createDB.sql"), StandardCharsets.UTF_8));
@@ -52,6 +45,7 @@ public class BackendApplication implements CommandLineRunner {
             insertTileSet(tileSet);
         }
     }
+
 
     private void insertTileSet(TileSet tileSet) {
         Integer[] foreignIDs = new Integer[48];
@@ -67,5 +61,4 @@ public class BackendApplication implements CommandLineRunner {
         }
         tileSetRepository.addTileSet(foreignIDs);
     }
-
 }

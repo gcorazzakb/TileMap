@@ -1,0 +1,52 @@
+nur gleiche kanten aneinander.
+
+prolayer:
+	tileset (unter 0 nur noch wassertiles)
+
+variablen pro tile
+((FarbMap))
+kanten
+eckentyp/ kantentyp/ flächentyp?
+	rampe? nur flächen?? rampeup/ rampte leftright?
+	rampe_wasser?
+	typ leer, typ  luft
+kann oben drauf etwas sein (falsch weil höhle)->
+welcher typ kann drunter sein
+	typ stein/ erde  muss irgendwie gleich sein (vererbung)
+ecken??
+höhe??
+graph / array??
+wahrscheinlichkeit?(sonst ist alles vollmit bergen) vermutlich wegen constraintsolver nicht möglich
+
+alpha kante:
+kann alles drunter sein. nope, oder doch weil das über die typen dunter abgedeckt ist?
+
+
+layer:
+kanten oben müssen mit kanten unten oder auf layer selbst abschließen
+
+
+layer muss nicht vollständig sein?
+input:
+leermap?
+höhenmap?-> höhen variable 
+
+typen:
+alles
+	gerade
+		erde
+		stein
+		wasser
+	ungerade
+		rampe
+			rampeud
+			rampeln
+		fluss
+
+ansatz:
+	nur die kanten vergelichen:
+		problem: alpha werte durch die man durchgucken kann
+			lösung: 3d layer
+				problem: 
+lösung: keine alphawerte: weniger divers
+			
